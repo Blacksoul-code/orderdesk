@@ -22,7 +22,7 @@ async function loadBrands() {
 function fillBrandSelects() {
   const sel = $m("mBrand");
   const keep = sel.value;
-  sel.innerHTML = '<option value="">-- Brand chuno --</option>';
+  sel.innerHTML = '<option value="">-- Select Brand --</option>';
   brandsCache.forEach((b) => sel.add(new Option(b.name, b.id)));
   sel.value = keep;
 

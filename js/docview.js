@@ -6,6 +6,8 @@ async function viewDoc(id) {
   const { data: doc, error } = await documentsApi.get(id);
   if (error) return toast("Load error: " + error.message, true);
   viewingRow = doc;
+    // Mobile par iframe me PDF nahi dikhta, nayi tab me kholo
+  if (window.innerWidth < 700) { openPdf(doc); return; }
   try {
     toast("Preview ban raha hai...");
     const pdf = await buildPdf(doc);

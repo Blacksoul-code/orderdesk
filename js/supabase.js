@@ -1,4 +1,4 @@
-// Supabase client. Naam "sb" hai kyunki "supabase" naam library ka hai.
+// Supabase client is named **"sb"** because **"supabase"** is already used by the library.
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ---------- AUTH ----------

@@ -1,4 +1,3 @@
-// Party aur Item master ka logic
 let partiesCache = [];   // form autocomplete me kaam aata hai
 let itemsCache = [];
 let editingPartyId = null;
@@ -50,7 +49,7 @@ async function loadParties() {
   if (error) return toast("Parties load error: " + error.message, true);
   partiesCache = data;
   const body = document.getElementById("partyBody");
-  if (!data.length) return emptyMsg(body, "Abhi koi party nahi hai.");
+  if (!data.length) return emptyMsg(body, "There are no parties available.");
   body.innerHTML = "";
   data.forEach((p) =>
     addRow(body, [p.type === "supplier" ? "Supplier" : "Customer", p.name, p.mobile, p.gstin],
@@ -91,9 +90,9 @@ document.getElementById("partyForm").addEventListener("submit", async (e) => {
   const mobile = pMobile.value.trim();
   const gstin = pGstin.value.trim().toUpperCase();
   // Validation
-  if (!name) return toast("Name zaroori hai", true);
-  if (mobile && !/^\d{10}$/.test(mobile)) return toast("Mobile 10 digit ka hona chahiye", true);
-  if (gstin && !/^\d{2}[A-Z]{5}\d{4}[A-Z][A-Z\d]Z[A-Z\d]$/.test(gstin)) return toast("GSTIN ka format galat hai", true);
+  if (!name) return toast("Name is required.", true);
+  if (mobile && !/^\d{10}$/.test(mobile)) return toast("Mobile number must be 10 digits.", true);
+  if (gstin && !/^\d{2}[A-Z]{5}\d{4}[A-Z][A-Z\d]Z[A-Z\d]$/.test(gstin)) return toast("Invalid GSTIN format.", true);
 
   const row = { type: pType.value, name, mobile, address: pAddress.value.trim(), gstin };
   const btn = document.getElementById("partySaveBtn");
@@ -101,7 +100,7 @@ document.getElementById("partyForm").addEventListener("submit", async (e) => {
   const { error } = editingPartyId ? await partiesApi.update(editingPartyId, row) : await partiesApi.add(row);
   btn.disabled = false;
   if (error) return toast("Save error: " + error.message, true);
-  toast(editingPartyId ? "Party update ho gayi ✅" : "Party add ho gayi ✅");
+  toast(editingPartyId ? "Party updated successfully." : "Party added successfully.");
   resetPartyForm();
   loadParties();
 });
@@ -113,7 +112,7 @@ async function loadItems() {
   if (error) return toast("Items load error: " + error.message, true);
   itemsCache = data;
   const body = document.getElementById("itemBody");
-  if (!data.length) return emptyMsg(body, "Abhi koi item nahi hai.");
+  if (!data.length) return emptyMsg(body, "There are no items available.");
   body.innerHTML = "";
   data.forEach((i) =>
     addRow(body, [i.name, i.hsn, i.unit, "₹" + Number(i.rate || 0).toFixed(2)],
@@ -140,7 +139,7 @@ function editItem(i) {
 }
 
 async function deleteItem(i) {
-  if (!confirm(i.name + " ko delete karna hai?")) return;
+  if (!confirm(i.name + " Are you sure you want to delete")) return;
   const { error } = await itemsApi.remove(i.id);
   if (error) return toast("Delete error: " + error.message, true);
   toast("Item delete ho gaya");
@@ -150,9 +149,9 @@ async function deleteItem(i) {
 document.getElementById("itemForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = iName.value.trim();
-  if (!name) return toast("Item name zaroori hai", true);
+  if (!name) return toast("Item name is required.", true);
   const rate = parseFloat(iRate.value) || 0;
-  if (rate < 0) return toast("Rate negative nahi ho sakta", true);
+  if (rate < 0) return toast("Rate must be a positive number.", true);
 
   const row = { name, hsn: iHsn.value.trim(), unit: iUnit.value.trim(), rate };
   const btn = document.getElementById("itemSaveBtn");
@@ -160,7 +159,7 @@ document.getElementById("itemForm").addEventListener("submit", async (e) => {
   const { error } = editingItemId ? await itemsApi.update(editingItemId, row) : await itemsApi.add(row);
   btn.disabled = false;
   if (error) return toast("Save error: " + error.message, true);
-  toast(editingItemId ? "Item update ho gaya ✅" : "Item add ho gaya ✅");
+  toast(editingItemId ? "Item updated successfully." : "Item added successfully.");
   resetItemForm();
   loadItems();
 });

@@ -1,4 +1,3 @@
-// Work Order: brand -> machine -> rollers chuno aur items me jodo
 const $p = (id) => document.getElementById(id);
 let pmRollers = [];
 
@@ -19,9 +18,9 @@ function pmUpdateTotal() {
 
 function openPicker() {
   const b = $p("pmBrand");
-  b.innerHTML = '<option value="">-- Brand chuno --</option>';
+  b.innerHTML = '<option value="">-- Select Brand --</option>';
   brandsCache.forEach((x) => b.add(new Option(x.name, x.id)));
-  $p("pmMachine").innerHTML = '<option value="">-- Machine chuno --</option>';
+  $p("pmMachine").innerHTML = '<option value="">-- Select Machine --</option>';
   $p("pmBody").innerHTML = "";
   pmUpdateTotal();
   $p("rollerModal").classList.remove("hidden");
@@ -31,7 +30,7 @@ function closePicker() { $p("rollerModal").classList.add("hidden"); }
 // Brand badalne par sirf usi brand ki machines
 $p("pmBrand").addEventListener("change", () => {
   const m = $p("pmMachine");
-  m.innerHTML = '<option value="">-- Machine chuno --</option>';
+  m.innerHTML = '<option value="">-- Select Machine --</option>';
   machinesCache.filter((x) => x.brand_id === $p("pmBrand").value)
     .forEach((x) => m.add(new Option(x.name, x.id)));
   $p("pmBody").innerHTML = "";
@@ -49,7 +48,7 @@ $p("pmMachine").addEventListener("change", async () => {
   const { data, error } = await rollersApi.listByMachine(id);
   if (error) return toast("Rollers load error: " + error.message, true);
   pmRollers = data.filter((r) => r.is_active);
-  if (!pmRollers.length) return emptyMsg(body, "Is machine me koi active roller nahi hai.");
+  if (!pmRollers.length) return emptyMsg(body, "There are no active rollers assigned to this machine.");
   pmRollers.forEach((r, i) => {
     const tr = document.createElement("tr");
     tr.className = "pmrow";
@@ -76,7 +75,7 @@ $p("pmSave").addEventListener("click", () => {
     const qty = parseFloat(tr.querySelector(".pmqty").value) || 0;
     if (qty > 0) picked.push({ r: pmRollers[tr.dataset.i], qty });
   });
-  if (!picked.length) return toast("Kam se kam ek roller chuno (qty 1+)", true);
+  if (!picked.length) return toast("Please select at least one roller.", true);
 
   // Khali pehli row hata do
   document.querySelectorAll("#itemsBody tr:not(.sec-row)").forEach((tr) => {

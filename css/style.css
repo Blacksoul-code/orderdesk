@@ -228,8 +228,7 @@ tr.sec-row input { font-weight: 700; margin: 0; }
   .brand { order: 1; }
   #logoutBtn { order: 2; }
   .brandlogo { height: 36px; }
-  .nav { order: 3; flex-basis: 100%; width: 100%; flex-wrap: nowrap; overflow-x: auto;
-    gap: 4px; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .nav { order: 3; flex-basis: 100%; width: 100%; flex-wrap: wrap; overflow: visible; gap: 4px; }
   .navbtn, .ddtoggle { padding: 8px 10px; font-size: 14px; white-space: nowrap; flex: 0 0 auto; }
   .dropdown { flex: 0 0 auto; }
   .ddmenu { position: fixed; left: 12px; right: 12px; top: auto; min-width: 0; }
@@ -243,6 +242,8 @@ tr.sec-row input { font-weight: 700; margin: 0; }
 
   /* Dashboard */
   .cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .stat.warn { grid-column: 1 / -1; }
+  #recentBody td, #recentBody + * { font-size: 12px; }
   .stat { padding: 14px; }
   .stat b { font-size: 22px; }
 
@@ -268,4 +269,27 @@ tr.sec-row input { font-weight: 700; margin: 0; }
   /* Login */
   .center .card { padding: 20px; }
   .loginlogo { height: 70px; }
+}
+
+/* Focus ring hatao (nav buttons) */
+.navbtn:focus, .ddtoggle:focus { outline: none; }
+.navbtn:focus-visible, .ddtoggle:focus-visible { outline: 2px solid #93c5fd; }
+
+/* Mobile: Dashboard + Documents list card view */
+@media (max-width: 600px) {
+  .pager { flex-direction: row; justify-content: space-between; }
+  .pager button { width: auto; min-width: 90px; }
+
+  .doctable thead { display: none; }
+  .doctable, .doctable tbody, .doctable tr, .doctable td { display: block; width: 100%; }
+  .doctable tr { border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px 10px; margin-bottom: 10px; }
+  .doctable td { border: 0; padding: 3px 0; white-space: normal; }
+  .doctable td[data-label]:not([data-label=""])::before {
+    content: attr(data-label) ": "; color: #64748b; font-weight: 600;
+  }
+  .doctable td.empty { text-align: center; }
+
+  /* Sirf Documents page: buttons neeche wrap */
+  #docsBody td:last-child { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 8px; }
+  #docsBody td:last-child button { margin: 0; flex: 0 0 auto; }
 }

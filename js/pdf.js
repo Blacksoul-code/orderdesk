@@ -1,4 +1,3 @@
-// PDF banane ka poora logic (jsPDF + autotable)
 const NAVY = [20, 40, 110];
 
 const hexRgb = (h) => {
@@ -461,7 +460,7 @@ const pdfName = (row) => (row.doc_no || "document").replace(/[^\w-]/g, "") + ".p
 // PDF download
 async function downloadPdf(row) {
   try {
-    toast("PDF ban rahi hai...");
+    toast("Generating PDF...");
     const doc = await buildPdf(row);
     doc.save(pdfName(row));
   } catch (err) {

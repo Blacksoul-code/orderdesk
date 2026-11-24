@@ -1,4 +1,3 @@
-// Order (With/Without Amount) / Purchase Order / Challan: form, calculation, save, list
 const PREFIX = { order: "ORD", purchase_order: "PO", challan: "CH" };
 const TYPE_NAME = { order: "Order Form", work_order: "Work Order", purchase_order: "Purchase Order", challan: "Delivery Challan" };
 const $d = (id) => document.getElementById(id);
@@ -57,7 +56,7 @@ function addItemRow(it = {}) {
   if (it.section !== undefined) {
     tr.className = "sec-row";
     tr.innerHTML = `<td></td>
-      <td colspan="9"><input class="sec-name" placeholder="Section heading (jaise INKING ROLLERS)" /></td>
+      <td colspan="9"><input class="sec-name" placeholder="Section heading (like INKING ROLLERS)" /></td>
       <td><button type="button" class="small danger rm">✕</button></td>`;
     tr.querySelector(".sec-name").value = it.section || "";
     $d("itemsBody").appendChild(tr);
@@ -153,7 +152,7 @@ function startNew(type = "order", format = "with") {
   $d("dType").disabled = false; 
   $d("dType").value = type;
   $d("dDate").value = todayLocal();
-  $d("dNo").value = "Save par auto banega";
+  $d("dNo").value = "Generated automatically";
   $d("itemsBody").innerHTML = "";
   addItemRow();
   $d("formTitle").textContent = "New " + TYPE_NAME[type];
@@ -255,11 +254,11 @@ $d("docForm").addEventListener("submit", async (e) => {
   const real = items.filter((i) => !i.section);
 
   // Validation
-    if (!name && !wo) return toast("Party ka naam zaroori hai", true);
-  if (mobile && !/^\d{10}$/.test(mobile)) return toast("Mobile 10 digit ka hona chahiye", true);
-  if (gstin && !/^\d{2}[A-Z]{5}\d{4}[A-Z][A-Z\d]Z[A-Z\d]$/.test(gstin)) return toast("GSTIN ka format galat hai", true);
-  if (!real.length) return toast("Kam se kam ek item daalo", true);
-  if (real.some((i) => i.qty <= 0)) return toast("Har item ki quantity 0 se zyada honi chahiye", true);
+    if (!name && !wo) return toast("Party name is required.", true);
+  if (mobile && !/^\d{10}$/.test(mobile)) return toast("Mobile number must be 10 digits.", true);
+  if (gstin && !/^\d{2}[A-Z]{5}\d{4}[A-Z][A-Z\d]Z[A-Z\d]$/.test(gstin)) return toast("Invalid GSTIN format.", true);
+  if (!real.length) return toast("At least one item is required.", true);
+  if (real.some((i) => i.qty <= 0)) return toast("Quantity for each item must be greater than 0.", true);
 
   const t = recalc();
   const row = {
@@ -319,7 +318,7 @@ $d("docForm").addEventListener("submit", async (e) => {
   btn.disabled = false;
   if (error) return toast("Save error: " + error.message, true);
 
-  toast(savedNo + " save ho gaya ✅");
+  toast(savedNo + " saved successfully.");
     if (wantPdf) { wantPdf = false; downloadPdf({ ...row, doc_no: savedNo }); }
   await loadDocs();
   showView("docs");
@@ -362,7 +361,7 @@ function renderDocs() {
   $d("pgPrev").disabled = docPage <= 1;
   $d("pgNext").disabled = docPage >= pages;
 
-  if (!list.length) return emptyMsg(body, allDocs.length ? "Koi document match nahi hua." : "Abhi koi document nahi hai. '+ New' dabao.");
+  if (!list.length) return emptyMsg(body, allDocs.length ? "No matching documents found." : "No documents available yet. Click + New to create one.");
   body.innerHTML = "";
   list.slice((docPage - 1) * PAGE_SIZE, docPage * PAGE_SIZE).forEach((d) =>
     addRow(
@@ -374,8 +373,13 @@ function renderDocs() {
         if (!confirm(d.doc_no + " delete karna hai?")) return;
         const r = await documentsApi.remove(d.id);
         if (r.error) return toast("Delete error: " + r.error.message, true);
-        toast("Document delete ho gaya");
+        toast("Document deleted successfully.");
         loadDocs();
+          // Mobile card view ke liye har cell par label
+  const labels = ["Doc No", "Type", "Party", "Date", "Total", ""];
+  body.querySelectorAll("tr").forEach((tr) => {
+    [...tr.children].forEach((td, i) => td.setAttribute("data-label", labels[i] || ""));
+  });
       },
       [
         { label: "👁 View", fn: () => viewDoc(d.id) },

@@ -1,5 +1,4 @@
-// Brand aur Machine ka logic
-const $m = (id) => document.getElementById(id);
+  const $m = (id) => document.getElementById(id);
 let brandsCache = [];
 let machinesCache = [];
 let editingBrandId = null;
@@ -29,7 +28,7 @@ function fillBrandSelects() {
 
   const f = $m("mFilter");
   const keepF = f.value;
-  f.innerHTML = '<option value="">Sab Brands</option>';
+  f.innerHTML = '<option value="">All Brands</option>';
   brandsCache.forEach((b) => f.add(new Option(b.name, b.id)));
   f.value = keepF;
 }
@@ -50,7 +49,7 @@ function editBrand(b) {
 }
 
 async function deleteBrand(b) {
-  if (!confirm(b.name + " delete karna hai?\n(Is brand ki machines rahengi, bas unka brand khali ho jayega)")) return;
+  if (!confirm(b.name + " Are you sure you want to delete\n(The machines under this brand will be retained, but their brand association will be removed.)")) return;
   const { error } = await brandsApi.remove(b.id);
   if (error) return toast("Delete error: " + error.message, true);
   toast("Brand delete ho gaya");
@@ -61,15 +60,15 @@ async function deleteBrand(b) {
 $m("brandForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = $m("bName").value.trim();
-  if (!name) return toast("Brand name zaroori hai", true);
+  if (!name) return toast("Brand name is required.", true);
   const btn = $m("brandSaveBtn");
   btn.disabled = true;
   const { error } = editingBrandId
     ? await brandsApi.update(editingBrandId, { name })
     : await brandsApi.add({ name });
   btn.disabled = false;
-  if (error) return toast(error.code === "23505" ? "Ye brand pehle se hai" : "Save error: " + error.message, true);
-  toast(editingBrandId ? "Brand update ho gaya ✅" : "Brand add ho gaya ✅");
+  if (error) return toast(error.code === "23505" ? "This brand already exists." : "Save error: " + error.message, true);
+  toast(editingBrandId ? "Brand updated successfully." : "Brand added successfully.");
   resetBrandForm();
   await loadBrands();
   loadMachines();
@@ -89,7 +88,7 @@ function renderMachines() {
   const f = $m("mFilter").value;
   const list = machinesCache.filter((m) => !f || m.brand_id === f);
   const body = $m("machineBody");
-  if (!list.length) return emptyMsg(body, "Abhi koi machine nahi hai.");
+  if (!list.length) return emptyMsg(body, "No machines available yet.");
   body.innerHTML = "";
         list.forEach((m) => {
     addRow(
@@ -124,10 +123,10 @@ function editMachine(m) {
 }
 
 async function deleteMachine(m) {
-  if (!confirm(m.name + " delete karni hai?")) return;
+  if (!confirm(m.name + " Are you sure you want to delete")) return;
   const { error } = await machinesApi.remove(m.id);
   if (error) return toast("Delete error: " + error.message, true);
-  toast("Machine delete ho gayi");
+  toast("Machine deleted successfully.");
   loadMachines();
 }
 
@@ -135,8 +134,8 @@ $m("machineForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const brand_id = $m("mBrand").value;
   const name = $m("mName").value.trim();
-  if (!brand_id) return toast("Pehle brand chuno", true);
-  if (!name) return toast("Machine name zaroori hai", true);
+  if (!brand_id) return toast("Please select a brand.", true);
+  if (!name) return toast("Machine name is required.", true);
   const row = { brand_id, name, model: $m("mModel").value.trim(), notes: $m("mNotes").value.trim() };
   const btn = $m("machineSaveBtn");
   btn.disabled = true;
@@ -145,7 +144,7 @@ $m("machineForm").addEventListener("submit", async (e) => {
     : await machinesApi.add(row);
   btn.disabled = false;
   if (error) return toast("Save error: " + error.message, true);
-  toast(editingMachineId ? "Machine update ho gayi ✅" : "Machine add ho gayi ✅");
+  toast(editingMachineId ? "Machine updated successfully." : "Machine added successfully.");
   resetMachineForm();
   await loadMachines();
   showView("machines");

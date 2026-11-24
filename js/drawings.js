@@ -1,4 +1,3 @@
-// Work Order drawings: upload, preview, remove
 let woDrawings = [];   // storage paths
 
 // Image ko max 1600px, JPEG banao
@@ -14,10 +13,10 @@ function drawingBlob(file, maxW = 1600) {
       x.fillStyle = "#fff";
       x.fillRect(0, 0, c.width, c.height);
       x.drawImage(img, 0, 0, c.width, c.height);
-      c.toBlob((b) => (b ? resolve(b) : reject(new Error("Image convert nahi hui"))), "image/jpeg", 0.85);
+      c.toBlob((b) => (b ? resolve(b) : reject(new Error("Image conversion failed."))), "image/jpeg", 0.85);
       URL.revokeObjectURL(img.src);
     };
-    img.onerror = () => reject(new Error("Image padh nahi payi"));
+    img.onerror = () => reject(new Error("Unable to read the image."));
     img.src = URL.createObjectURL(file);
   });
 }

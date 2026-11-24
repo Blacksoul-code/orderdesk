@@ -1,7 +1,6 @@
-// Settings page ka poora logic
-let settingsData = {};   // abhi ki saved settings (images ke flags bhi isme: img_logo, img_signature, img_stamp)
+let settingsData = {};   
 
-// Form ke saare [data-key] fields se data nikalo
+// Extract data from all `[data-key]` fields in the form.
 function collectSettings() {
   const d = { ...settingsData };
   document.querySelectorAll("#settingsForm [data-key]").forEach((el) => {
@@ -10,7 +9,7 @@ function collectSettings() {
   return d;
 }
 
-// Saved data ko form me bharo
+//Populate the form with the saved data.
 function fillSettings() {
   document.querySelectorAll("#settingsForm [data-key]").forEach((el) => {
     const v = settingsData[el.dataset.key];
@@ -19,7 +18,7 @@ function fillSettings() {
   });
 }
 
-// Image ko max 600px chhota karke PNG blob banao
+// Resize the image to a maximum dimension of 600px and convert it into a PNG Blob.
 function resizeImage(file, maxW = 600) {
   return new Promise((resolve, reject) => {
     const img = new Image();

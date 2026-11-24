@@ -1,4 +1,3 @@
-// Document ka print-format preview (asli PDF iframe me)
 let viewingRow = null;
 let viewingUrl = null;
 
@@ -9,7 +8,7 @@ async function viewDoc(id) {
     // Mobile par iframe me PDF nahi dikhta, nayi tab me kholo
   if (window.innerWidth < 700) { openPdf(doc); return; }
   try {
-    toast("Preview ban raha hai...");
+    toast("Generating preview......");
     const pdf = await buildPdf(doc);
     if (viewingUrl) URL.revokeObjectURL(viewingUrl);
     viewingUrl = URL.createObjectURL(pdf.output("blob"));

@@ -18,8 +18,8 @@ async function loadDashboard() {
   // Last 8 documents (list pehle se newest-first aati hai)
   const body = document.getElementById("recentBody");
   body.innerHTML = "";
-  if (!data.length) return emptyMsg(body, "Abhi koi document nahi hai.");
-  data.slice(0, 8).forEach((d) => {
+  if (!data.length) return emptyMsg(body, "No documents available yet. Click + New to create one.");
+    data.slice(0, 8).forEach((d) => {
     const tr = document.createElement("tr");
     [d.doc_no, TYPE_NAME[d.doc_type], d.party_name || "-", fmtDate(d.doc_date),
      Number(d.total) > 0 ? "₹" + money(d.total) : "-"].forEach((v) => {
@@ -28,6 +28,12 @@ async function loadDashboard() {
       tr.appendChild(td);
     });
     body.appendChild(tr);
+  });
+
+  // Mobile card view ke liye labels
+  const labels = ["Doc No", "Type", "Party", "Date", "Total"];
+  body.querySelectorAll("tr").forEach((tr) => {
+    [...tr.children].forEach((td, i) => td.setAttribute("data-label", labels[i] || ""));
   });
 }
 

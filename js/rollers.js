@@ -23,7 +23,7 @@ async function loadRollers() {
     const tr = document.createElement("tr");
     const td = document.createElement("td");
     td.colSpan = 12; td.className = "empty";
-    td.textContent = "Abhi koi roller nahi hai. '+ Add Roller' dabao.";
+    td.textContent = 'No rollers available yet. Click "Add Roller" to add a roller.';
     tr.appendChild(td); body.appendChild(tr);
     return;
   }
@@ -101,9 +101,9 @@ $r("rollerForm").addEventListener("submit", async (e) => {
   const category = $r("rCategory").value.trim();
   const roller_type = $r("rType").value.trim();
   const qty = parseInt($r("rQty").value, 10);
-  if (!category) return toast("Roller category zaroori hai", true);
-  if (!roller_type) return toast("Type of roller zaroori hai", true);
-  if (!qty || qty < 1) return toast("Quantity 1 ya usse zyada honi chahiye", true);
+  if (!category) return toast("Roller category is required.", true);
+  if (!roller_type) return toast("Type of roller is required.", true);
+  if (!qty || qty < 1) return toast("Quantity must be 1 or more.", true);
 
     const row = {
     category, roller_type, qty,
@@ -122,7 +122,7 @@ $r("rollerForm").addEventListener("submit", async (e) => {
     : await rollersApi.add({ ...row, machine_id: currentMachine.id });
   btn.disabled = false;
   if (error) return toast("Save error: " + error.message, true);
-  toast(editingRollerId ? "Roller update ho gaya ✅" : "Roller add ho gaya ✅");
+  toast(editingRollerId ? "Roller updated successfully." : "Roller added successfully.");
   closeRollerForm();
   loadRollers();
 });

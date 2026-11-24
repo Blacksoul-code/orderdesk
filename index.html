@@ -47,7 +47,6 @@
 
     <main class="container">
 
-      <!-- DASHBOARD (abhi placeholder) -->
        <section id="view-dashboard" class="view">
   <div class="cards">
     <div class="stat" data-go="docs"><span>Orders</span><b id="stOrders">0</b></div>
@@ -59,24 +58,23 @@
 
   <div class="card full tablewrap">
     <h2>Recent Documents</h2>
-    <table>
-      <thead><tr><th>Doc No</th><th>Type</th><th>Party</th><th>Date</th><th>Total</th></tr></thead>
+<table class="doctable">
+  <thead><tr><th>Doc No</th><th>Type</th><th>Party</th><th>Date</th><th>Total</th></tr></thead>
       <tbody id="recentBody"></tbody>
     </table>
   </div>
-
 </section>
       <!-- DOCUMENT FORM -->
 <section id="view-form" class="view hidden">
   <form id="docForm" data-type="order">
 
     <div class="card full">
-      <h2 id="formTitle">New Order Form</h2>
+      <h2 id="formTitle">New Doc</h2>
       <div class="grid">
         <label>Document Type
           <select id="dType">
-            <option value="order">Order Form</option>
             <option value="work_order">Work Order</option>
+            <option value="order">Order Form</option>
             <option value="purchase_order">Purchase Order</option>
             <option value="challan">Delivery Challan</option>
           </select>
@@ -93,12 +91,12 @@
     <label>Prepared By<input id="dPrepared" /></label>
     <label>Approved By<input id="dApproved" /></label>
   </div>
-  <label class="check"><input type="checkbox" id="dDrawing" /> "APPROVED DRAWING ATTACHED WITH WORK ORDER" likho</label>
-  <label>Important Notes (har line ek note)
+  <label class="check"><input type="checkbox" id="dDrawing" /> "APPROVED DRAWING ATTACHED WITH WORK ORDER"</label>
+  <label>Important Notes.
     <textarea id="dImportant" rows="5" placeholder="QUALITY AND PACKING OF THE ROLLERS SHOULD BE ACCORDING TO EXPORT STANDARD."></textarea>
   </label>
   <div class="drawbox">
-  <b>Drawing Images (PDF ke baad alag pages me judengi)</b>
+  <b>Drawing Images</b>
   <input type="file" id="drawInput" accept="image/*" multiple />
   <div id="drawList" class="drawlist"></div>
 </div>
@@ -129,7 +127,7 @@
       <div class="tablewrap">
         <div class="machinebar wo-machine">
   <label>Machine
-    <input id="dMachine" placeholder="Add Rollers se machine ka naam apne aap aayega" />
+    <input id="dMachine" placeholder="The machine name will be automatically populated when you add rollers." />
   </label>
 </div>
         <table class="itemtable">
@@ -196,11 +194,11 @@
       <label>From Date<input type="date" id="fFrom" /></label>
       <label>To Date<input type="date" id="fTo" /></label>
     </div>
-    <button type="button" id="fClear" class="small gray">Filter hatao</button>
+    <button type="button" id="fClear" class="small gray">Remove Filter</button>
   </div>
 
   <div class="card full tablewrap">
-    <table>
+    <table class="doctable">
       <thead>
         <tr><th>Doc No</th><th>Type</th><th>Party</th><th>Date</th><th>Total</th><th></th></tr>
       </thead>
@@ -248,7 +246,7 @@
         <label>Model<input id="mModel" /></label>
         <label>Notes<input id="mNotes" /></label>
       </div>
-      <p class="muted">Brand list khali hai to pehle <b>Machine → Add Brand</b> se brand add karo.</p>
+      <p class="muted">The brand list is empty. Please add a brand first via <b>Machine → Add Brand</b></p>
       <button type="submit" id="machineSaveBtn">Add Machine</button>
       <button type="button" id="machineCancelBtn" class="small hidden">Cancel</button>
     </form>

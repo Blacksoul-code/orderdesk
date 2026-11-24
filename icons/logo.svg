@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a6be0"/><stop offset="1" stop-color="#0c2a7a"/>
+    </linearGradient>
+    <linearGradient id="o" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffa000"/><stop offset="1" stop-color="#ff4d00"/>
+    </linearGradient>
+  </defs>
+
+  <!-- D (narangi) -->
+  <path fill="url(#o)" fill-rule="evenodd"
+        d="M100 12H128A38 38 0 0 1 128 88H100Z M114 26H126A24 24 0 0 1 126 74H114Z"/>
+
+  <!-- O (neela gol) -->
+  <circle cx="50" cy="50" r="38" fill="url(#b)"/>
+  <circle cx="50" cy="50" r="25" fill="#fff"/>
+
+  <!-- Document -->
+  <rect x="39" y="34" width="22" height="28" rx="3" fill="#eef4ff" stroke="#14286e" stroke-width="2"/>
+  <path d="M43 42H57M43 48H57M43 54H52" stroke="#14286e" stroke-width="2.4" stroke-linecap="round"/>
+
+  <!-- Check badge -->
+  <circle cx="62" cy="63" r="10" fill="#14286e" stroke="#fff" stroke-width="2"/>
+  <path d="M57.5 63l3.2 3.2 6-7" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Swoosh -->
+  <path fill="url(#o)" d="M6 78Q60 96 140 48Q80 80 6 78Z"/>
+
+  <!-- Text -->
+  <text x="178" y="58" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800" fill="#14286e">Order<tspan fill="#ff7a00">Desk</tspan></text>
+  <text x="180" y="76" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="2" fill="#64748b">CREATE • MANAGE • TRACK</text>
+</svg>

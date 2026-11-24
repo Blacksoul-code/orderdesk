@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1478f0"/><stop offset="1" stop-color="#0c2a7a"/>
+    </linearGradient>
+    <linearGradient id="o" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffa000"/><stop offset="1" stop-color="#ff4d00"/>
+    </linearGradient>
+  </defs>
+
+  <!-- D (narangi, bold) -->
+  <path fill="url(#o)" fill-rule="evenodd"
+        d="M58 14H70A36 36 0 0 1 70 86H58Z M72 32H71A18 18 0 0 1 71 68H72Z"/>
+
+  <!-- O (neela gol) -->
+  <circle cx="40" cy="50" r="36" fill="url(#b)"/>
+
+  <!-- Document (safed, bada) -->
+  <rect x="26" y="29" width="28" height="36" rx="4" fill="#fff"/>
+  <path d="M31 39H49M31 47H49M31 55H42" stroke="#14286e" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Check badge -->
+  <circle cx="54" cy="66" r="13" fill="#ff7a00" stroke="#fff" stroke-width="3"/>
+  <path d="M48 66l4.5 4.5 8.5-10" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

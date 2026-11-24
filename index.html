@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>OrderDesk</title>
+  <link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <section id="loginScreen" class="center hidden">
+    <form id="loginForm" class="card">
+    <h1><img src="icons/logo.svg" alt="OrderDesk" class="loginlogo" /></h1>
+      <p class="muted">Please log in.</p>
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit" id="loginBtn">Login</button>
+      <p id="loginMsg" class="error"></p>
+    </form>
+  </section>
+
+  <!-- MAIN APP -->
+  <section id="appScreen" class="hidden">
+    <header class="topbar">
+<strong class="brand"><img src="icons/logo.svg" alt="OrderDesk" class="brandlogo" /></strong>
+      <nav class="nav">
+        <button class="navbtn active" data-view="dashboard">Dashboard</button>
+        <button class="navbtn" data-view="settings">Settings</button>
+        <button class="navbtn" data-view="parties">Parties</button>
+        <button class="navbtn" data-view="items">Items</button>
+        <div class="dropdown" id="machineDropdown">
+  <button type="button" class="ddtoggle" id="machineMenuBtn">Machine ▾</button>
+  <div class="ddmenu">
+    <button type="button" class="ddbtn" data-view="brands">Add Brand</button>
+    <button type="button" class="ddbtn" data-view="machine-add">Add Machines</button>
+    <button type="button" class="ddbtn" data-view="machines">Machines</button>
+  </div>
+</div>
+        <button class="navbtn" data-view="docs">Documents</button>
+        <button class="navbtn" data-view="form" id="newDocBtn">+ New</button>
+      </nav>
+      <button id="logoutBtn" class="small">Logout</button>
+    </header>
+
+    <main class="container">
+
+      <!-- DASHBOARD (abhi placeholder) -->
+       <section id="view-dashboard" class="view">
+  <div class="cards">
+    <div class="stat" data-go="docs"><span>Orders</span><b id="stOrders">0</b></div>
+    <div class="stat" data-go="docs"><span>Work Orders</span><b id="stWO">0</b></div>
+    <div class="stat" data-go="docs"><span>Purchase Orders</span><b id="stPO">0</b></div>
+    <div class="stat" data-go="docs"><span>Challans</span><b id="stCH">0</b></div>
+    <div class="stat warn" data-go="docs"><span>Pending Amount</span><b id="stPending">₹0.00</b></div>
+  </div>
+
+  <div class="card full tablewrap">
+    <h2>Recent Documents</h2>
+    <table>
+      <thead><tr><th>Doc No</th><th>Type</th><th>Party</th><th>Date</th><th>Total</th></tr></thead>
+      <tbody id="recentBody"></tbody>
+    </table>
+  </div>
+
+  <p class="muted">Logged in as: <b id="userEmail"></b></p>
+  <p id="dbStatus" class="muted"></p>
+</section>
+      <!-- DOCUMENT FORM -->
+<section id="view-form" class="view hidden">
+  <form id="docForm" data-type="order">
+
+    <div class="card full">
+      <h2 id="formTitle">New Order Form</h2>
+      <div class="grid">
+        <label>Document Type
+          <select id="dType">
+            <option value="order">Order Form</option>
+            <option value="work_order">Work Order</option>
+            <option value="purchase_order">Purchase Order</option>
+            <option value="challan">Delivery Challan</option>
+          </select>
+        </label>
+        <label><span id="dNoLabel">Document No</span><input id="dNo" readonly /></label>
+        <label>Date *<input type="date" id="dDate" required /></label>
+      </div>
+    </div>
+
+    <div class="card full">
+        <div class="card full" id="woCard" data-for="work_order">
+  <h2>Work Order Details</h2>
+  <div class="grid">
+    <label>Prepared By<input id="dPrepared" /></label>
+    <label>Approved By<input id="dApproved" /></label>
+  </div>
+  <label class="check"><input type="checkbox" id="dDrawing" /> "APPROVED DRAWING ATTACHED WITH WORK ORDER" likho</label>
+  <label>Important Notes (har line ek note)
+    <textarea id="dImportant" rows="5" placeholder="QUALITY AND PACKING OF THE ROLLERS SHOULD BE ACCORDING TO EXPORT STANDARD."></textarea>
+  </label>
+  <div class="drawbox">
+  <b>Drawing Images (PDF ke baad alag pages me judengi)</b>
+  <input type="file" id="drawInput" accept="image/*" multiple />
+  <div id="drawList" class="drawlist"></div>
+</div>
+  <p>Total Quantity: <b id="sQty">0</b></p>
+</div>
+      <h2 id="partyTitle">Customer Details</h2>
+      <div class="grid">
+        <label><span id="partyLabel">Customer Name *</span>
+          <input id="dParty" list="partyList" autocomplete="off" required />
+        </label>
+        <datalist id="partyList"></datalist>
+        <label>Mobile<input id="dMobile" maxlength="10" inputmode="numeric" /></label>
+        <label>Address<input id="dAddress" /></label>
+        <label data-for="purchase_order">GSTIN<input id="dGstin" maxlength="15" /></label>
+        <label data-for="order,purchase_order">Delivery / Expected Date<input type="date" id="dDelivery" /></label>
+        <label data-for="purchase_order">Payment Terms<input id="dPayTerms" /></label>
+        <label data-for="purchase_order">Ship To Address<input id="dShipTo" /></label>
+        <label data-for="challan">Vehicle No.<input id="dVehicle" /></label>
+        <label data-for="challan">Driver Name<input id="dDriver" /></label>
+        <label data-for="challan">Driver Phone<input id="dDriverPhone" /></label>
+        <label data-for="challan">Reference Order/PO No.<input id="dRef" /></label>
+      </div>
+    </div>
+
+    <div class="card full">
+      <h2>Items</h2>
+      <datalist id="itemList"></datalist>
+      <div class="tablewrap">
+        <div class="machinebar wo-machine">
+  <label>Machine
+    <input id="dMachine" placeholder="Add Rollers se machine ka naam apne aap aayega" />
+  </label>
+</div>
+        <table class="itemtable">
+          <thead>
+            <tr>
+  <th>#</th><th>Item / Marks</th><th class="col-hsn">HSN</th>
+  <th class="col-desc">Description / Size</th><th class="col-color">Color</th>
+  <th>Qty</th><th>Unit</th>
+  <th class="col-money">Rate</th><th class="col-money">Amount</th>
+  <th class="col-remarks">Remarks</th><th></th>
+</tr>
+          </thead>
+          <tbody id="itemsBody"></tbody>
+        </table>
+      </div>
+     <button type="button" id="addItemBtn" class="small not-wo">+ Add Item</button>
+<button type="button" id="addRollersBtn" class="small wo-only">Add Rollers</button>
+      <button type="button" id="addSectionBtn" class="small gray wo-only">+ Section Heading</button>
+    </div>
+
+    <div class="card full totals-card" data-for="order,purchase_order">
+      <h2>Totals</h2>
+      <div class="grid">
+        <label data-for="order">Discount (₹)<input id="dDiscount" type="number" min="0" step="0.01" value="0" /></label>
+        <label>GST %<input id="dGst" type="number" min="0" step="0.01" value="0" /></label>
+        <label data-for="purchase_order">Freight / Other (₹)<input id="dFreight" type="number" min="0" step="0.01" value="0" /></label>
+        <label data-for="order">Advance Paid (₹)<input id="dAdvance" type="number" min="0" step="0.01" value="0" /></label>
+      </div>
+      <div class="sumbox">
+        <p>Subtotal: ₹<b id="sSub">0.00</b></p>
+        <p>GST: ₹<b id="sGst">0.00</b></p>
+        <p>Total: ₹<b id="sTotal">0.00</b></p>
+        <p data-for="order">Balance Due: ₹<b id="sBal">0.00</b></p>
+      </div>
+    </div>
+
+    <div class="card full">
+      <label>Notes / Remarks<textarea id="dNotes" rows="3"></textarea></label>
+    </div>
+
+    <div class="btnrow">
+      <button type="submit" id="docSaveBtn">Save Document</button>
+      <button type="submit" id="docSavePdfBtn">Save &amp; Download PDF</button>
+      <button type="button" id="docCancelBtn" class="gray">Cancel</button>
+    </div>
+  </form>
+</section>
+
+<!-- DOCUMENTS LIST -->
+<section id="view-docs" class="view hidden">
+  <div class="card full">
+    <h2>Saved Documents</h2>
+    <div class="grid">
+      <label>Search<input id="fSearch" placeholder="Doc no or party name" /></label>
+      <label>Type
+        <select id="fType">
+          <option value="">Sab</option>
+          <option value="order">Order Form</option>
+          <option value="work_order">Work Order</option>
+          <option value="purchase_order">Purchase Order</option>
+          <option value="challan">Delivery Challan</option>
+        </select>
+      </label>
+      <label>From Date<input type="date" id="fFrom" /></label>
+      <label>To Date<input type="date" id="fTo" /></label>
+    </div>
+    <button type="button" id="fClear" class="small gray">Filter hatao</button>
+  </div>
+
+  <div class="card full tablewrap">
+    <table>
+      <thead>
+        <tr><th>Doc No</th><th>Type</th><th>Party</th><th>Date</th><th>Total</th><th></th></tr>
+      </thead>
+      <tbody id="docsBody"></tbody>
+    </table>
+  </div>
+
+  <div class="pager">
+    <button type="button" id="pgPrev" class="small gray">← Prev</button>
+    <span id="pgInfo"></span>
+    <button type="button" id="pgNext" class="small gray">Next →</button>
+  </div>
+</section>
+
+<!-- BRANDS -->
+<section id="view-brands" class="view hidden">
+  <div class="card full">
+    <h2>Add Brand</h2>
+    <form id="brandForm">
+      <div class="grid">
+        <label>Brand Name *<input id="bName" required /></label>
+      </div>
+      <button type="submit" id="brandSaveBtn">Add Brand</button>
+      <button type="button" id="brandCancelBtn" class="small hidden">Cancel</button>
+    </form>
+  </div>
+  <div class="card full tablewrap">
+    <table>
+      <thead><tr><th>Brand</th><th></th></tr></thead>
+      <tbody id="brandBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ADD MACHINE -->
+<section id="view-machine-add" class="view hidden">
+  <div class="card full">
+    <h2 id="machineFormTitle">Add Machine</h2>
+    <form id="machineForm">
+      <div class="grid">
+        <label>Brand *
+          <select id="mBrand" required></select>
+        </label>
+        <label>Machine Name *<input id="mName" required /></label>
+        <label>Model<input id="mModel" /></label>
+        <label>Notes<input id="mNotes" /></label>
+      </div>
+      <p class="muted">Brand list khali hai to pehle <b>Machine → Add Brand</b> se brand add karo.</p>
+      <button type="submit" id="machineSaveBtn">Add Machine</button>
+      <button type="button" id="machineCancelBtn" class="small hidden">Cancel</button>
+    </form>
+  </div>
+</section>
+
+<!-- MACHINES LIST -->
+<section id="view-machines" class="view hidden">
+  <div class="card full">
+    <h2>Machines</h2>
+    <label>Brand filter
+      <select id="mFilter"></select>
+    </label>
+  </div>
+  <div class="card full tablewrap">
+    <table>
+      <thead><tr><th>Brand</th><th>Machine</th><th>Model</th><th>Notes</th><th></th></tr></thead>
+      <tbody id="machineBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- MACHINE DETAIL (rollers) -->
+<section id="view-machine-detail" class="view hidden">
+  <div class="card full">
+    <button type="button" id="backToMachines" class="small gray">← Machines</button>
+    <div class="infogrid">
+      <div class="k">Machine Name</div><div class="v wide" id="mdName"></div>
+      <div class="k">Model</div><div class="v" id="mdModel"></div>
+      <div class="k">Brand</div><div class="v" id="mdBrand"></div>
+    </div>
+  </div>
+
+  <div class="rollerbar" id="rollerBar">
+  <span class="rollerlabel">Rollers</span>
+  <button type="button" id="addRollerBtn" class="addroller">Add Roller</button>
+</div>
+
+  <div class="card full tablewrap" id="rollerTableCard">
+  <table class="rtable">
+      <thead>
+        <tr>
+          <th>#</th><th>Roller ID</th><th>Roller Category</th><th>Roller Type</th>
+          <th>Qty.</th><th>Color</th><th>Shell Diameter</th><th>Finish Diameter</th>
+          <th>Face Length</th><th>Spindle Length</th><th>Hardness</th><th>Active</th>
+        </tr>
+      </thead>
+      <tbody id="rollerBody"></tbody>
+    </table>
+  </div>
+
+
+  <form id="rollerForm" class="card full rform hidden">
+  <h2 id="rollerFormTitle">Add Roller</h2>
+  <datalist id="rollerCatList">
+    <option value="Inkers"></option><option value="Dampening"></option>
+    <option value="Transfer"></option><option value="Distributor"></option>
+  </datalist>
+  <datalist id="rollerColorList">
+    <option value="Black"></option><option value="White"></option><option value="Red"></option>
+    <option value="Blue"></option><option value="Green"></option><option value="Yellow"></option>
+    <option value="Grey"></option><option value="Orange"></option>
+  </datalist>
+
+  <label>Offset Machine Name<input id="rMachine" readonly /></label>
+  <label>Roller Category *<input id="rCategory" list="rollerCatList" placeholder="Search/Select" autocomplete="off" required /></label>
+  <div class="grid2">
+    <label>Type of Roller *<input id="rType" placeholder="Type of Roller" required /></label>
+    <label>Quantity of Rollers in Machine *<input id="rQty" type="number" min="1" step="1" placeholder="Quantity of Rollers in Machine" required /></label>
+  </div>
+
+  <div class="grid2">
+    <label>Roller Color<input id="rColor" list="rollerColorList" placeholder="Search/Select" autocomplete="off" /></label>
+    <label>Hardness<input id="rHardness" placeholder="Hardness" /></label>
+  </div>
+  <div class="grid2">
+    <label>Shell Diameter (in mm) [optional]<input id="rShell" type="number" min="0" step="any" placeholder="Shell Diameter in mm" /></label>
+    <label>Finish Diameter (in mm)<input id="rFinish" type="number" min="0" step="any" placeholder="Finish Diameter in mm" /></label>
+  </div>
+  <div class="grid2">
+    <label>Face Length (in mm)<input id="rFace" type="number" min="0" step="any" placeholder="Face Length in mm" /></label>
+    <label>Spindle Length (in mm)<input id="rSpindle" type="number" min="0" step="any" placeholder="Spindle Length in mm" /></label>
+  </div>
+
+  <div class="activebox">
+    <label class="switch"><input type="checkbox" id="rActive" checked /><span class="slider"></span></label>
+    <span>Is Active</span>
+  </div>
+
+
+  <div class="formbtns">
+    <button type="submit" id="rollerSaveBtn" class="btn-save">💾 Save</button>
+    <button type="button" id="rollerCancelBtn" class="btn-close">✖ Close</button>
+  </div>
+</form>
+</section>
+
+      <!-- PARTIES -->
+<section id="view-parties" class="view hidden">
+  <div class="card full">
+    <h2>Party Master (Customer / Supplier)</h2>
+    <form id="partyForm">
+      <div class="grid">
+        <label>Type
+          <select id="pType">
+            <option value="customer">Customer</option>
+            <option value="supplier">Supplier</option>
+          </select>
+        </label>
+        <label>Name *<input id="pName" required /></label>
+        <label>Mobile<input id="pMobile" maxlength="10" inputmode="numeric" /></label>
+        <label>Address<input id="pAddress" /></label>
+        <label>GSTIN<input id="pGstin" maxlength="15" /></label>
+      </div>
+      <button type="submit" id="partySaveBtn">Add Party</button>
+      <button type="button" id="partyCancelBtn" class="small hidden">Cancel</button>
+    </form>
+  </div>
+  <div class="card full tablewrap">
+    <table>
+      <thead><tr><th>Type</th><th>Name</th><th>Mobile</th><th>GSTIN</th><th></th></tr></thead>
+      <tbody id="partyBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ITEMS -->
+<section id="view-items" class="view hidden">
+  <div class="card full">
+    <h2>Item Master</h2>
+    <form id="itemForm">
+      <div class="grid">
+        <label>Item Name *<input id="iName" required /></label>
+        <label>HSN<input id="iHsn" /></label>
+        <label>Unit<input id="iUnit" placeholder="Pcs, Kg, Box" /></label>
+        <label>Rate (₹)<input id="iRate" type="number" step="0.01" min="0" /></label>
+      </div>
+      <button type="submit" id="itemSaveBtn">Add Item</button>
+      <button type="button" id="itemCancelBtn" class="small hidden">Cancel</button>
+    </form>
+  </div>
+  <div class="card full tablewrap">
+    <table>
+      <thead><tr><th>Item</th><th>HSN</th><th>Unit</th><th>Rate</th><th></th></tr></thead>
+      <tbody id="itemBody"></tbody>
+    </table>
+  </div>
+</section>
+
+      <!-- SETTINGS -->
+      <section id="view-settings" class="view hidden">
+        <form id="settingsForm">
+
+          <div class="card full">
+            <h2>Business Details</h2>
+            <div class="grid">
+              <label>Business Name<input data-key="businessName" /></label>
+              <label>Tagline<input data-key="tagline" /></label>
+              <label>Address<input data-key="address" /></label>
+              <label>Phone<input data-key="phone" /></label>
+              <label>Email<input data-key="bizEmail" /></label>
+              <label>Website<input data-key="website" /></label>
+              <label>GSTIN<input data-key="gstin" /></label>
+            </div>
+          </div>
+
+          <div class="card full">
+            <h2>Logo, Signature, Stamp</h2>
+            <p class="muted">PNG/JPG formats are accepted. The image will be automatically resized to a maximum of 600 pixels.</p>
+            <div class="grid">
+              <div class="imgbox" data-img="logo">
+                <b>Logo</b>
+                <img class="imgprev hidden" alt="logo" />
+                <input type="file" accept="image/*" />
+                <button type="button" class="small danger rmimg">Remove</button>
+              </div>
+              <div class="imgbox" data-img="signature">
+                <b>Signature</b>
+                <img class="imgprev hidden" alt="signature" />
+                <input type="file" accept="image/*" />
+                <button type="button" class="small danger rmimg">Remove</button>
+              </div>
+              <div class="imgbox" data-img="stamp">
+                <b>Stamp / Seal</b>
+                <img class="imgprev hidden" alt="stamp" />
+                <input type="file" accept="image/*" />
+                <button type="button" class="small danger rmimg">Remove</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card full">
+            <h2>Header Style</h2>
+            <div class="grid">
+              <label>Header Layout
+                <select data-key="headerLayout">
+                  <option value="left">Logo left + details right</option>
+                  <option value="center">Logo centered, with the details displayed below it.</option>
+                  <option value="text">Text only (no logo), center-aligned with the details below.</option>
+                </select>
+              </label>
+              <label>Accent Color<input type="color" data-key="accentColor" value="#2563eb" /></label>
+            </div>
+            <p class="muted">Live preview:</p>
+            <div id="headerPreview" class="preview"></div>
+          </div>
+
+          <div class="card full">
+            <h2>Footer</h2>
+            <div class="grid">
+              <label>Footer Text<input data-key="footerText" /></label>
+              <label>Thank You Message<input data-key="thankYou" placeholder="Thank you for your business!" /></label>
+              <label>Authorized Signatory Label<input data-key="signLabel" placeholder="Authorized Signatory" /></label>
+            </div>
+            <label class="check"><input type="checkbox" data-key="showPageNo" /> Page number dikhao (Page 1 of 2)</label>
+            <label class="check"><input type="checkbox" data-key="computerGenerated" /> "Computer generated document" likho</label>
+          </div>
+
+          <div class="card full">
+            <h2>Bank Details</h2>
+            <div class="grid">
+              <label>Bank Name<input data-key="bankName" /></label>
+              <label>Account Holder<input data-key="accHolder" /></label>
+              <label>Account No.<input data-key="accNo" /></label>
+              <label>IFSC<input data-key="ifsc" /></label>
+              <label>UPI ID<input data-key="upi" /></label>
+            </div>
+          </div>
+
+          <div class="card full">
+            <h2>Terms &amp; Conditions</h2>
+            <label>Order Form<textarea data-key="termsOrder" rows="3"></textarea></label>
+            <label>Purchase Order<textarea data-key="termsPO" rows="3"></textarea></label>
+            <label>Delivery Challan<textarea data-key="termsChallan" rows="3"></textarea></label>
+          </div>
+
+          <button type="submit" id="saveSettingsBtn">Save Settings</button>
+        </form>
+      </section>
+    </main>
+  </section>
+
+  <div id="rollerModal" class="modal hidden">
+  <div class="modalbox">
+    <h2>Add Rollers to Work Order</h2>
+    <div class="grid2">
+      <label>Select Brand *<select id="pmBrand"></select></label>
+      <label>Select Machine *<select id="pmMachine"></select></label>
+    </div>
+    <div class="tablewrap">
+      <table class="rtable">
+        <thead><tr><th></th><th>Roller Details</th><th>Qty in Machine</th><th>Roll Qty.</th></tr></thead>
+        <tbody id="pmBody"></tbody>
+      </table>
+    </div>
+    <p class="pmtotal">Total Qty: <b id="pmTotal">0</b></p>
+    <div class="formbtns">
+      <button type="button" id="pmSave" class="btn-save">💾 Save</button>
+      <button type="button" id="pmClose" class="btn-close">✖ Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="viewModal" class="modal hidden">
+  <div class="modalbox viewbox">
+    <iframe id="viewFrame" title="Document preview"></iframe>
+    <div class="formbtns">
+      <button type="button" id="viewPrintBtn" class="btn-save">🖨 Print</button>
+      <button type="button" id="viewPdfBtn" class="btn-save">📄 Download PDF</button>
+      <button type="button" id="viewCloseBtn" class="btn-close">✖ Close</button>
+    </div>
+  </div>
+</div>
+
+  <div id="toast" class="toast hidden"></div>
+
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/masters.js"></script>
+<script src="js/machines.js"></script>
+<script src="js/rollers.js"></script>
+<script src="js/documents.js"></script>
+<script src="js/docview.js"></script>
+<script src="js/rollerpicker.js"></script>
+<script src="js/drawings.js"></script>
+<script src="js/pdf.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

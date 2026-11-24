@@ -40,9 +40,7 @@ function showScreen(session) {
   $("loginScreen").classList.toggle("hidden", !!session);
   $("appScreen").classList.toggle("hidden", !session);
   if (session && loadedFor !== session.user.id) {
-    loadedFor = session.user.id;
-    $("userEmail").textContent = session.user.email;
-    testDatabase();
+    loadedFor = session.user.id;    
     loadSettings();
     loadMasters();
     loadDocs();

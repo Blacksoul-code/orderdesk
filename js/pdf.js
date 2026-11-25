@@ -247,29 +247,23 @@ async function liveRollers(row) {
 
     // Date (left) + bada badge (right)
     doc.setDrawColor(0); doc.setLineWidth(0.3);
-    doc.rect(14, y, 182, 22);
+    doc.rect(14, y, 182, 26);
     doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(...NAVY);
     doc.text("DATE : " + fmtDate(row.doc_date), 17, y + 9);
+        const machName = (d.wo && d.wo.machine) || "";
+    if (machName) {
+      doc.setFontSize(11);
+      const ml = doc.splitTextToSize(machName, 115);   // badge ke liye jagah chhodi
+      doc.text(ml, 17, y + 16);
+    }
     doc.setFontSize(32);
     doc.setTextColor(150);
     doc.text(row.doc_no || "", pw - 17 + 0.7, y + 16.7, { align: "right" }); // shadow
     doc.setTextColor(0);
     doc.text(row.doc_no || "", pw - 17, y + 16, { align: "right" });
-    y += 22;
+    y += 26;
 
-        // Machine ka naam: table heading ke upar
-    const machName = (d.wo && d.wo.machine) || "";
-       if (machName) {
-      doc.setDrawColor(0); doc.setLineWidth(0.3);
-      doc.setFillColor(255, 255, 255);          // safed background (reference jaisa)
-      doc.rect(14, y, 182, 9, "FD");            // FD = fill + border
-      doc.setFont("helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(...NAVY);
-      doc.text(machName, pw / 2, y + 6.3, { align: "center" });
-      const mw = doc.getTextWidth(machName);
-      doc.line(pw / 2 - mw / 2, y + 7.2, pw / 2 + mw / 2, y + 7.2);
-      y += 9;
-    }
-
+    
     // Items table
     let totalQty = 0, unit = "";
     const body = [];
@@ -287,7 +281,7 @@ async function liveRollers(row) {
       startY: y, margin, theme: "grid",
       head: [["ITEM / MARKS", "GOODS DESCRIPTION / SIZE", "COLOR", "QTY", "UNIT"]],
       body,
-      foot: [[{ content: "TOTAL QUANTITY", colSpan: 3, styles: { halign: "right" } }, totalQty, unit]],
+      foot: [[{ content: "TOTAL NO OF ROLLERS", colSpan: 3, styles: { halign: "right" } }, totalQty, unit]],
       showFoot: "lastPage",
       styles: { fontSize: 9, textColor: NAVY, halign: "center", lineColor: 0, lineWidth: 0.3, cellPadding: 1.8 },
       headStyles: { fillColor: 255, textColor: NAVY, fontStyle: "bold" },

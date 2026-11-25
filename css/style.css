@@ -377,3 +377,21 @@ tr.sec-row input { font-weight: 700; margin: 0; }
   #docsBody td:last-child { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 8px; }
   #docsBody td:last-child button { margin: 0; flex: 0 0 auto; }
 }
+
+/* Cancel / Close buttons: laal */
+.btn-close,
+button.gray#docCancelBtn,
+#rollerCancelBtn,
+#pmClose,
+#viewCloseBtn {
+  background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(220,38,38,.28) !important;
+}
+.btn-close:hover,
+button.gray#docCancelBtn:hover,
+#pmClose:hover,
+#viewCloseBtn:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 16px rgba(220,38,38,.36) !important;
+}

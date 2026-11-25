@@ -59,6 +59,7 @@ function addItemRow(it = {}) {
       <td colspan="9"><input class="sec-name" placeholder="Section heading (like INKING ROLLERS)" /></td>
       <td><button type="button" class="small danger rm">✕</button></td>`;
     tr.querySelector(".sec-name").value = it.section || "";
+      if (it.rollerId) tr.dataset.rollerId = it.rollerId;
     $d("itemsBody").appendChild(tr);
     return;
   }
@@ -135,6 +136,7 @@ function collectItems() {
     const rate = wo ? 0 : parseFloat(tr.querySelector(".it-rate").value) || 0;
     items.push({
       name, qty, rate, amount: r2(qty * rate),
+      rollerId: tr.dataset.rollerId || "",
       hsn: tr.querySelector(".it-hsn").value.trim(),
       desc: tr.querySelector(".it-desc").value.trim(),
       color: tr.querySelector(".it-color").value.trim(),
@@ -164,7 +166,7 @@ function startNew(type = "order", format = "with") {
 async function editDoc(id) {
   const { data: doc, error } = await documentsApi.get(id);
   if (error) return toast("Document load error: " + error.message, true);
-  const d = doc.data || {};
+   const d = (await liveRollers(doc)).data || {};   // machine se latest roller details
   const p = d.party || {};
     startNew(doc.doc_type);
   editingDocId = id;

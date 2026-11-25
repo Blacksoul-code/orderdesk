@@ -87,8 +87,8 @@ $p("pmSave").addEventListener("click", () => {
   if (!cur.some((x) => x.toLowerCase() === mName.toLowerCase())) cur.push(mName);
   $d("dMachine").value = cur.join(" / ");
 
-  picked.forEach(({ r, qty }) =>
-    addItemRow({ name: r.roller_type, desc: rollerSize(r), color: r.color || "", qty, unit: "PCS" })
+    picked.forEach(({ r, qty }) =>
+    addItemRow({ name: r.roller_type, desc: rollerSize(r), color: r.color || "", qty, unit: "PCS", rollerId: r.id })
   );
   recalc();
   closePicker();

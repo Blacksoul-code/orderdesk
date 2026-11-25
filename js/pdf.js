@@ -155,8 +155,42 @@ function drawFooter(doc, s, pageNo, total, pw, ph) {
   if (s.showPageNo !== false) doc.text(`Page ${pageNo} of ${total}`, pw - 14, ph - 8, { align: "right" });
 }
 
+// Work Order ke rollers ko machine ki latest details se badlo (live)
+// Purane items me rollerId nahi hoti, to naam se match karte hain
+async function liveRollers(row) {
+  if (row.doc_type !== "work_order") return row;
+  const items = (row.data && row.data.items) || [];
+  if (!items.length) return row;
+
+  // Saare rollers (machine ke naam ke saath) laao
+  const { data: all, error } = await sb.from("rollers").select("*, machines(name)");
+  if (error || !all) return row;
+
+  const norm = (s) => (s || "").toString().trim().toLowerCase();
+  const machineName = norm(row.data.wo && row.data.wo.machine);
+  // Machine ka naam "A / B" ho sakta hai
+  const machines = machineName.split("/").map((x) => x.trim()).filter(Boolean);
+
+  const fresh = items.map((it) => {
+    if (it.section) return it;
+    // 1) rollerId se
+    let r = it.rollerId && all.find((x) => x.id === it.rollerId);
+    // 2) nahi mili to naam se (pehle usi machine me, phir kahin bhi)
+    if (!r && it.name) {
+      const same = all.filter((x) => norm(x.roller_type) === norm(it.name));
+      r = same.find((x) => machines.includes(norm(x.machines && x.machines.name))) ||
+          (same.length === 1 ? same[0] : null);
+    }
+    return r
+      ? { ...it, rollerId: r.id, name: r.roller_type || it.name, desc: rollerSize(r), color: r.color || "" }
+      : it;
+  });
+  return { ...row, data: { ...row.data, items: fresh } };
+}
+
 // ================== MAIN: PDF banao ==================
-async function buildPdf(row) {
+  async function buildPdf(row) {
+  row = await liveRollers(row);
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const s = settingsData || {};

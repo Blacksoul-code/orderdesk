@@ -156,30 +156,40 @@ function drawFooter(doc, s, pageNo, total, pw, ph) {
 }
 
 // Work Order ke rollers ko machine ki latest details se badlo (live)
-// Purane items me rollerId nahi hoti, to naam se match karte hain
 async function liveRollers(row) {
   if (row.doc_type !== "work_order") return row;
   const items = (row.data && row.data.items) || [];
   if (!items.length) return row;
 
-  // Saare rollers (machine ke naam ke saath) laao
   const { data: all, error } = await sb.from("rollers").select("*, machines(name)");
   if (error || !all) return row;
 
   const norm = (s) => (s || "").toString().trim().toLowerCase();
-  const machineName = norm(row.data.wo && row.data.wo.machine);
-  // Machine ka naam "A / B" ho sakta hai
-  const machines = machineName.split("/").map((x) => x.trim()).filter(Boolean);
+  const machines = norm(row.data.wo && row.data.wo.machine)
+    .split("/").map((x) => x.trim()).filter(Boolean);
+  const used = new Set();
+
+  // Pehle: jin items me rollerId hai, unhe lock karo
+  items.forEach((it) => {
+    if (it.rollerId && all.some((x) => x.id === it.rollerId)) used.add(it.rollerId);
+  });
 
   const fresh = items.map((it) => {
     if (it.section) return it;
-    // 1) rollerId se
     let r = it.rollerId && all.find((x) => x.id === it.rollerId);
-    // 2) nahi mili to naam se (pehle usi machine me, phir kahin bhi)
+
+    // rollerId nahi hai: naam se, par sirf pakka match hone par
     if (!r && it.name) {
-      const same = all.filter((x) => norm(x.roller_type) === norm(it.name));
-      r = same.find((x) => machines.includes(norm(x.machines && x.machines.name))) ||
-          (same.length === 1 ? same[0] : null);
+      let cand = all.filter((x) => norm(x.roller_type) === norm(it.name) && !used.has(x.id));
+      const inMachine = cand.filter((x) => machines.includes(norm(x.machines && x.machines.name)));
+      if (inMachine.length) cand = inMachine;
+      if (cand.length === 1) r = cand[0];
+      else if (cand.length > 1) {
+        // Saved size se milta hua roller dhundo
+        const same = cand.filter((x) => norm(rollerSize(x)) === norm(it.desc));
+        if (same.length === 1) r = same[0];
+      }
+      if (r) used.add(r.id);
     }
     return r
       ? { ...it, rollerId: r.id, name: r.roller_type || it.name, desc: rollerSize(r), color: r.color || "" }

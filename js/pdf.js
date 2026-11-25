@@ -243,18 +243,6 @@ async function liveRollers(row) {
     doc.text("WORK ORDER", pw / 2, y + 7, { align: "center" });
     y += 10;
 
-    if (p.name) {
-      doc.setFillColor(232, 184, 184);
-      doc.rect(14, y, 182, 9, "F");
-      doc.setFontSize(13); doc.setTextColor(...NAVY);
-      const t = "Kind Attn: " + p.name;
-      doc.text(t, pw / 2, y + 6.5, { align: "center" });
-      const tw = doc.getTextWidth(t);
-      doc.setDrawColor(...NAVY); doc.setLineWidth(0.4);
-      doc.line(pw / 2 - tw / 2, y + 7.4, pw / 2 + tw / 2, y + 7.4);
-      y += 9;
-    }
-
     // Date (left) + bada badge (right)
     doc.setDrawColor(0); doc.setLineWidth(0.3);
     doc.rect(14, y, 182, 26);

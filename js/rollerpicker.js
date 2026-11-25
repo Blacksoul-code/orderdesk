@@ -92,8 +92,17 @@ $p("pmSave").addEventListener("click", () => {
   );
   recalc();
   closePicker();
-  toast(picked.length + " Rollers added successfully.");
+    const totalQ = picked.reduce((s, x) => s + x.qty, 0);
+  toast(picked.length + " roller add ho gaye ✅ | Total Qty: " + totalQ);
 });
 
 $p("pmClose").addEventListener("click", closePicker);
 $p("addRollersBtn").addEventListener("click", openPicker);
+
+// Select All
+$p("pmAll").addEventListener("change", () => {
+  $p("pmBody").querySelectorAll(".pmchk").forEach((c) => (c.checked = $p("pmAll").checked));
+  pmUpdateTotal();
+});
+// Machine/brand badalne par Select All reset
+["pmBrand", "pmMachine"].forEach((id) => $p(id).addEventListener("change", () => ($p("pmAll").checked = false)));

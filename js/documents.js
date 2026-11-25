@@ -24,7 +24,8 @@ function applyType() {
   const supplier = type === "purchase_order";
   $d("partyTitle").textContent = wo ? "Kind Attn (Optional)" : supplier ? "Supplier Details" : type === "challan" ? "Receiver Details" : "Customer Details";
   $d("partyLabel").textContent = wo ? "Kind Attn (optional)" : supplier ? "Supplier Name *" : type === "challan" ? "Receiver Name *" : "Customer Name *";
-  $d("dParty").required = !wo;                       // Work Order me party optional
+  $d("dParty").required = !wo;                       // Work Order optional
+    $d("partyCard").classList.toggle("hidden", wo);   // removed kindly attend frrom work order 
   $d("dNoLabel").textContent = wo ? "Work Order No" : "Document No";
   fillLists();
   recalc();

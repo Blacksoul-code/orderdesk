@@ -6,6 +6,9 @@
   <meta name="robots" content="noindex, nofollow" />
   <title>OrderDesk</title>
   <link rel="icon" type="image/svg+xml" href="icons/favicon.svg" />
+  <meta name="theme-color" content="#4f46e5" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -130,7 +133,7 @@
       <datalist id="itemList"></datalist>
       <div class="machinebar wo-machine">
         <label>Machine
-          <input id="dMachine" placeholder="Machine name Add Rollers se apne aap aayega" />
+          <input id="dMachine" placeholder="Auto-filled on adding rollers." />
         </label>
       </div>
       <div class="tablewrap">
@@ -250,7 +253,7 @@
         <label>Model<input id="mModel" /></label>
         <label>Notes<input id="mNotes" /></label>
       </div>
-      <p class="muted">The brand list is empty. Please add a brand first via <b>Machine → Add Brand</b></p>
+      <p class="muted">Brand list empty. Add a brand first. via <b>Machine → Add Brand</b></p>
       <button type="submit" id="machineSaveBtn">Add Machine</button>
       <button type="button" id="machineCancelBtn" class="small hidden">Cancel</button>
     </form>
@@ -419,7 +422,7 @@
 
           <div class="card full">
             <h2>Logo, Signature, Stamp</h2>
-            <p class="muted">PNG/JPG formats are accepted. The image will be automatically resized to a maximum of 600 pixels.</p>
+            <p class="muted">Only PNG/JPG accepted. Images auto-resize to 600px max.</p>
             <div class="grid">
               <div class="imgbox" data-img="logo">
                 <b>Logo</b>
@@ -447,9 +450,9 @@
             <div class="grid">
               <label>Header Layout
                 <select data-key="headerLayout">
-                  <option value="left">Logo left + details right</option>
-                  <option value="center">Logo centered, with the details displayed below it.</option>
-                  <option value="text">Text only (no logo), center-aligned with the details below.</option>
+                  <option value="left">Logo on the left, details on the right.</option>
+                  <option value="center">Center the logo, with details displayed below it.</option>
+                  <option value="text">Text only, center-aligned, with details below.</option>
                 </select>
               </label>
               <label>Accent Color<input type="color" data-key="accentColor" value="#2563eb" /></label>
@@ -465,8 +468,8 @@
               <label>Thank You Message<input data-key="thankYou" placeholder="Thank you for your business!" /></label>
               <label>Authorized Signatory Label<input data-key="signLabel" placeholder="Authorized Signatory" /></label>
             </div>
-            <label class="check"><input type="checkbox" data-key="showPageNo" /> Page number dikhao (Page 1 of 2)</label>
-            <label class="check"><input type="checkbox" data-key="computerGenerated" /> "Computer generated document" likho</label>
+            <label class="check"><input type="checkbox" data-key="showPageNo" /> Show page numbers (Page 1 of 2)</label>
+            <label class="check"><input type="checkbox" data-key="computerGenerated" /> Computer-generated document</label>
           </div>
 
           <div class="card full">

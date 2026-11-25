@@ -64,7 +64,7 @@
     </table>
   </div>
 </section>
-      <!-- DOCUMENT FORM -->
+<!-- DOCUMENT FORM -->
 <section id="view-form" class="view hidden">
   <form id="docForm" data-type="order">
 
@@ -84,24 +84,27 @@
       </div>
     </div>
 
-    <div class="card full">
-        <div class="card full" id="woCard" data-for="work_order">
-  <h2>Work Order Details</h2>
-  <div class="grid">
-    <label>Prepared By<input id="dPrepared" /></label>
-    <label>Approved By<input id="dApproved" /></label>
-  </div>
-  <label class="check"><input type="checkbox" id="dDrawing" /> "APPROVED DRAWING ATTACHED WITH WORK ORDER"</label>
-  <label>Important Notes.
-    <textarea id="dImportant" rows="5" placeholder="QUALITY AND PACKING OF THE ROLLERS SHOULD BE ACCORDING TO EXPORT STANDARD."></textarea>
-  </label>
-  <div class="drawbox">
-  <b>Drawing Images</b>
-  <input type="file" id="drawInput" accept="image/*" multiple />
-  <div id="drawList" class="drawlist"></div>
-</div>
-  <p>TOTAL NO OF ROLLERS: <b id="sQty">0</b></p>
-</div>
+    <!-- Work Order Details (sirf Work Order me) -->
+    <div class="card full" id="woCard" data-for="work_order">
+      <h2>Work Order Details</h2>
+      <div class="grid">
+        <label>Prepared By<input id="dPrepared" /></label>
+        <label>Approved By<input id="dApproved" /></label>
+      </div>
+      <label class="check"><input type="checkbox" id="dDrawing" /> "APPROVED DRAWING ATTACHED WITH WORK ORDER"</label>
+      <label>Important Notes
+        <textarea id="dImportant" rows="5" placeholder="QUALITY AND PACKING OF THE ROLLERS SHOULD BE ACCORDING TO EXPORT STANDARD."></textarea>
+      </label>
+      <div class="drawbox">
+        <b>Drawing Images</b>
+        <input type="file" id="drawInput" accept="image/*" multiple />
+        <div id="drawList" class="drawlist"></div>
+      </div>
+      <p>TOTAL NO OF ROLLERS: <b id="sQty">0</b></p>
+    </div>
+
+    <!-- Party / Customer (Work Order me hidden) -->
+    <div class="card full" id="partyCard">
       <h2 id="partyTitle">Customer Details</h2>
       <div class="grid">
         <label><span id="partyLabel">Customer Name *</span>
@@ -121,30 +124,31 @@
       </div>
     </div>
 
-    <div class="card full" id="partyCard">
+    <!-- Items (hamesha dikhega) -->
+    <div class="card full">
       <h2>Items</h2>
       <datalist id="itemList"></datalist>
+      <div class="machinebar wo-machine">
+        <label>Machine
+          <input id="dMachine" placeholder="Machine name Add Rollers se apne aap aayega" />
+        </label>
+      </div>
       <div class="tablewrap">
-        <div class="machinebar wo-machine">
-  <label>Machine
-    <input id="dMachine" placeholder="The machine name will be automatically populated when you add rollers." />
-  </label>
-</div>
         <table class="itemtable">
           <thead>
             <tr>
-  <th>#</th><th>Item / Marks</th><th class="col-hsn">HSN</th>
-  <th class="col-desc">Description / Size</th><th class="col-color">Color</th>
-  <th>Qty</th><th>Unit</th>
-  <th class="col-money">Rate</th><th class="col-money">Amount</th>
-  <th class="col-remarks">Remarks</th><th></th>
-</tr>
+              <th>#</th><th>Item / Marks</th><th class="col-hsn">HSN</th>
+              <th class="col-desc">Description / Size</th><th class="col-color">Color</th>
+              <th>Qty</th><th>Unit</th>
+              <th class="col-money">Rate</th><th class="col-money">Amount</th>
+              <th class="col-remarks">Remarks</th><th></th>
+            </tr>
           </thead>
           <tbody id="itemsBody"></tbody>
         </table>
       </div>
-     <button type="button" id="addItemBtn" class="small not-wo">+ Add Item</button>
-<button type="button" id="addRollersBtn" class="small wo-only">Add Rollers</button>
+      <button type="button" id="addItemBtn" class="small not-wo">+ Add Item</button>
+      <button type="button" id="addRollersBtn" class="small wo-only">Add Rollers</button>
       <button type="button" id="addSectionBtn" class="small gray wo-only">+ Section Heading</button>
     </div>
 

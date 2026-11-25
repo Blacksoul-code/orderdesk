@@ -21,10 +21,10 @@ function applyType() {
   document.querySelectorAll("#docForm [data-for]").forEach((el) => {
     el.classList.toggle("hidden", !el.dataset.for.split(",").includes(type));
   });
-  const supplier = type === "purchase_order";
-  $d("partyTitle").textContent = wo ? "Kind Attn (Optional)" : supplier ? "Supplier Details" : type === "challan" ? "Receiver Details" : "Customer Details";
-  $d("partyLabel").textContent = wo ? "Kind Attn (optional)" : supplier ? "Supplier Name *" : type === "challan" ? "Receiver Name *" : "Customer Name *";
-  $d("dParty").required = !wo;                       // Work Order optional
+  const supplier = type === "purchase_order"; 
+    $d("partyTitle").textContent = supplier ? "Supplier Details" : type === "challan" ? "Receiver Details" : "Customer Details";
+  $d("partyLabel").textContent = supplier ? "Supplier Name *" : type === "challan" ? "Receiver Name *" : "Customer Name *";
+  $d("dParty").required = !wo;                 
     $d("partyCard").classList.toggle("hidden", wo);   // removed kindly attend frrom work order 
   $d("dNoLabel").textContent = wo ? "Work Order No" : "Document No";
   fillLists();
@@ -60,7 +60,6 @@ function addItemRow(it = {}) {
       <td colspan="9"><input class="sec-name" placeholder="Section heading (like INKING ROLLERS)" /></td>
       <td><button type="button" class="small danger rm">✕</button></td>`;
     tr.querySelector(".sec-name").value = it.section || "";
-      if (it.rollerId) tr.dataset.rollerId = it.rollerId;
     $d("itemsBody").appendChild(tr);
     return;
   }
@@ -84,6 +83,7 @@ function addItemRow(it = {}) {
   tr.querySelector(".it-unit").value = it.unit || "";
   tr.querySelector(".it-rate").value = it.rate ?? "";
   tr.querySelector(".it-remarks").value = it.remarks || "";
+    if (it.rollerId) tr.dataset.rollerId = it.rollerId;
   $d("itemsBody").appendChild(tr);
 }
 
@@ -168,7 +168,7 @@ async function editDoc(id) {
   const { data: doc, error } = await documentsApi.get(id);
   if (error) return toast("Document load error: " + error.message, true);
    const d = (await liveRollers(doc)).data || {};   // machine se latest roller details
-  const p = d.party || {};
+  const p = doc.doc_type === "work_order" ? {} : (d.party || {});
     startNew(doc.doc_type);
   editingDocId = id;
   $d("dType").disabled = true;           // edit me type/format nahi badalna
@@ -196,6 +196,7 @@ async function editDoc(id) {
     $d("dMachine").value = w.machine || "";
   $d("dApproved").value = w.approvedBy || "";
   $d("dImportant").value = w.important || "";
+    $d("dDrawing").checked = !!w.drawingAttached;
     setDrawings(w.drawings || []);
   $d("itemsBody").innerHTML = "";
   (d.items && d.items.length ? d.items : [{}]).forEach(addItemRow);
@@ -250,9 +251,9 @@ $d("docForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const type = $d("dType").value;
   const wo = isWO();
-  const name = $d("dParty").value.trim();
-  const mobile = $d("dMobile").value.trim();
-  const gstin = $d("dGstin").value.trim().toUpperCase();
+    const name = wo ? "" : $d("dParty").value.trim();
+  const mobile = wo ? "" : $d("dMobile").value.trim();
+  const gstin = wo ? "" : $d("dGstin").value.trim().toUpperCase();
   const items = collectItems();
   const real = items.filter((i) => !i.section);
 
@@ -378,11 +379,6 @@ function renderDocs() {
         if (r.error) return toast("Delete error: " + r.error.message, true);
         toast("Document deleted successfully.");
         loadDocs();
-          // Mobile card view ke liye har cell par label
-  const labels = ["Doc No", "Type", "Party", "Date", "Total", ""];
-  body.querySelectorAll("tr").forEach((tr) => {
-    [...tr.children].forEach((td, i) => td.setAttribute("data-label", labels[i] || ""));
-  });
       },
       [
         { label: "👁 View", fn: () => viewDoc(d.id) },
@@ -399,6 +395,10 @@ function renderDocs() {
       ]
     )
   );
+    const labels = ["Doc No", "Type", "Party", "Date", "Total", ""];
+  body.querySelectorAll("tr").forEach((tr) => {
+    [...tr.children].forEach((td, i) => td.setAttribute("data-label", labels[i] || ""));
+  });
 }
 
 // Filter badalte hi page 1 par jao

@@ -277,7 +277,7 @@ async function liveRollers(row) {
     });
     doc.autoTable({
       startY: y, margin, theme: "grid",
-      head: [["ITEM / MARKS", "GOODS DESCRIPTION / SIZE", "COLOR", "QTY", "UNIT"]],
+      head: [["ITEM / MARKS", "SIZE / FL X SD X FD X TL", "COLOR", "QTY", "UNIT"]],
       body,
       foot: [[{ content: "TOTAL NO OF ROLLERS", colSpan: 3, styles: { halign: "right" } }, totalQty, unit]],
       showFoot: "lastPage",

@@ -103,7 +103,6 @@
         <input type="file" id="drawInput" accept="image/*" multiple />
         <div id="drawList" class="drawlist"></div>
       </div>
-      <p>TOTAL NO OF ROLLERS: <b id="sQty">0</b></p>
     </div>
 
     <!-- Party / Customer (Work Order me hidden) -->
@@ -149,11 +148,12 @@
           </thead>
           <tbody id="itemsBody"></tbody>
         </table>
+           <div class="itembtns">
+        <button type="button" id="addItemBtn" class="small not-wo">+ Add Item</button>
+        <button type="button" id="addRollersBtn" class="small wo-only">Add Rollers</button>
+        <button type="button" id="addSectionBtn" class="small gray wo-only">+ Section Heading</button>
       </div>
-      <button type="button" id="addItemBtn" class="small not-wo">+ Add Item</button>
-      <button type="button" id="addRollersBtn" class="small wo-only">Add Rollers</button>
-      <button type="button" id="addSectionBtn" class="small gray wo-only">+ Section Heading</button>
-    </div>
+      <p class="rollertotal wo-only">TOTAL NO OF ROLLERS: <b id="sQty">0</b></p>
 
     <div class="card full totals-card" data-for="order,purchase_order">
       <h2>Totals</h2>

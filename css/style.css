@@ -437,3 +437,21 @@ select::-ms-expand { display: none; }
 
 .headrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
 .headrow h2 { margin: 0; }
+
+/* Add / Edit Machine popup */
+#view-machine-add:not(.hidden) {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 24px 12px; overflow-y: auto;
+  background: rgba(15,23,42,.55); backdrop-filter: blur(4px);
+}
+#view-machine-add:not(.hidden) > .card {
+  max-width: 640px; margin: 0; border-radius: 18px; padding: 26px;
+  box-shadow: 0 24px 60px -12px rgba(15,23,42,.35);
+}
+#machineCancelBtn { background: linear-gradient(135deg, #dc2626, #ef4444); }
+#view-machine-add .cancel-always { display: inline-block; }
+@media (max-width: 600px) {
+  #view-machine-add:not(.hidden) { padding: 0; }
+  #view-machine-add:not(.hidden) > .card { max-width: 100%; min-height: 100vh; border-radius: 0; }
+}

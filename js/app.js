@@ -11,16 +11,19 @@ function toast(msg, isError = false) {
 
 // Page (Dashboard / Settings) badlo
 function showView(name) {
-  document.querySelectorAll(".view").forEach((v) => v.classList.add("hidden"));
+  const popup = name === "machine-add";
+  document.querySelectorAll(".view").forEach((v) => {
+    // Popup ke time Machines list peeche khuli rahe
+    const keep = popup && v.id === "view-machines";
+    v.classList.toggle("hidden", !keep);
+  });
   $("view-" + name).classList.remove("hidden");
   document.querySelectorAll(".navbtn").forEach((b) =>
     b.classList.toggle("active", b.dataset.view === name)
   );
-  // Machine tab tab highlight ho jab uske andar ka koi page khula ho
-    $("machineMenuBtn").classList.toggle("active", ["brands", "machine-add", "machines", "categories", "machine-detail"].includes(name));
+  $("machineMenuBtn").classList.toggle("active", ["brands", "machine-add", "machines", "machine-detail", "categories"].includes(name));
   $("machineDropdown").classList.remove("open");
-
-    if (name === "dashboard") loadDashboard();
+  if (name === "dashboard") loadDashboard();
 }
 // Upar ke tab buttons (Dashboard, Settings, Parties, Items, Documents, + New)
 document.querySelectorAll(".navbtn").forEach((b) =>

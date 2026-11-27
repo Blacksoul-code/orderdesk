@@ -129,7 +129,7 @@ function resetMachineForm() {
   $m("machineForm").reset();
   $m("machineFormTitle").textContent = "Add Machine";
   $m("machineSaveBtn").textContent = "Add Machine";
-  $m("machineCancelBtn").classList.add("hidden");
+$m("machineCancelBtn").addEventListener("click", () => { resetMachineForm(); showView("machines"); });
 }
 
 function editMachine(m) {

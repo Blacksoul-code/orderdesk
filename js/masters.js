@@ -48,14 +48,24 @@ async function loadParties() {
   const { data, error } = await partiesApi.list();
   if (error) return toast("Parties load error: " + error.message, true);
   partiesCache = data;
+  renderParties();
+}
+
+function renderParties() {
+  const q = document.getElementById("pSearch").value.trim().toLowerCase();
+  const list = partiesCache.filter((p) =>
+    !q || [p.name, p.mobile, p.gstin, p.address, p.type]
+      .some((v) => (v || "").toLowerCase().includes(q))
+  );
   const body = document.getElementById("partyBody");
-  if (!data.length) return emptyMsg(body, "There are no parties available.");
+  if (!list.length) return emptyMsg(body, partiesCache.length ? "Koi party match nahi hui." : "Abhi koi party nahi hai.");
   body.innerHTML = "";
-  data.forEach((p) =>
+  list.forEach((p) =>
     addRow(body, [p.type === "supplier" ? "Supplier" : "Customer", p.name, p.mobile, p.gstin],
       () => editParty(p), () => deleteParty(p))
   );
 }
+document.getElementById("pSearch").addEventListener("input", renderParties);
 
 function resetPartyForm() {
   editingPartyId = null;
@@ -111,14 +121,23 @@ async function loadItems() {
   const { data, error } = await itemsApi.list();
   if (error) return toast("Items load error: " + error.message, true);
   itemsCache = data;
+  renderItems();
+}
+
+function renderItems() {
+  const q = document.getElementById("iSearch").value.trim().toLowerCase();
+  const list = itemsCache.filter((i) =>
+    !q || [i.name, i.hsn, i.unit].some((v) => (v || "").toLowerCase().includes(q))
+  );
   const body = document.getElementById("itemBody");
-  if (!data.length) return emptyMsg(body, "There are no items available.");
+  if (!list.length) return emptyMsg(body, itemsCache.length ? "Koi item match nahi hua." : "Abhi koi item nahi hai.");
   body.innerHTML = "";
-  data.forEach((i) =>
+  list.forEach((i) =>
     addRow(body, [i.name, i.hsn, i.unit, "₹" + Number(i.rate || 0).toFixed(2)],
       () => editItem(i), () => deleteItem(i))
   );
 }
+document.getElementById("iSearch").addEventListener("input", renderItems);
 
 function resetItemForm() {
   editingItemId = null;

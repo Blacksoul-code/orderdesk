@@ -15,8 +15,19 @@ async function loadBrands() {
     body.innerHTML = "";
     data.forEach((b) => addRow(body, [b.name], () => editBrand(b), () => deleteBrand(b)));
   }
+  renderBrands();
   fillBrandSelects();
 }
+
+function renderBrands() {
+  const q = $m("bSearch").value.trim().toLowerCase();
+  const list = brandsCache.filter((b) => !q || (b.name || "").toLowerCase().includes(q));
+  const body = $m("brandBody");
+  if (!list.length) return emptyMsg(body, brandsCache.length ? "Koi brand match nahi hua." : "Abhi koi brand nahi hai.");
+  body.innerHTML = "";
+  list.forEach((b) => addRow(body, [b.name], () => editBrand(b), () => deleteBrand(b)));
+}
+$m("bSearch").addEventListener("input", renderBrands);
 
 // Machine form aur filter ke dropdown bharo
 function fillBrandSelects() {

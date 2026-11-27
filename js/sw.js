@@ -1,5 +1,5 @@
 // App shell cache (data hamesha online se aata hai)
-const CACHE = "orderdesk-v1";
+const CACHE = "orderdesk-v2"; // 2024-06-17: cache busting for new service worker
 const SHELL = ["/", "/index.html", "/css/style.css", "/icons/icon-192.png", "/icons/icon-512.png"];
 
 self.addEventListener("install", (e) => {

@@ -434,3 +434,6 @@ select:disabled { background-color: #f6f8fc; cursor: not-allowed; opacity: .7; }
 
 /* Old IE arrow hatao */
 select::-ms-expand { display: none; }
+
+.headrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+.headrow h2 { margin: 0; }

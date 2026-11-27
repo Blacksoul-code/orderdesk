@@ -178,3 +178,9 @@ async function loadMachineData() {
   await loadBrands();
   await loadMachines();
 }
+
+// Machines page ka "+ Add Machine" button
+$m("addMachineBtn").addEventListener("click", () => {
+  resetMachineForm();
+  showView("machine-add");
+});

@@ -42,7 +42,6 @@
   <button type="button" class="ddtoggle" id="machineMenuBtn">Machine ▾</button>
   <div class="ddmenu">
     <button type="button" class="ddbtn" data-view="brands">Add Brand</button>
-    <button type="button" class="ddbtn" data-view="machine-add">Add Machines</button>
     <button type="button" class="ddbtn" data-view="categories">Roller Category</button>
     <button type="button" class="ddbtn" data-view="machines">Machines</button>
   </div>
@@ -295,7 +294,10 @@
 <!-- MACHINES LIST -->
 <section id="view-machines" class="view hidden">
   <div class="card full">
-    <h2>Machines</h2>
+    <div class="headrow">
+      <h2>Machines</h2>
+      <button type="button" id="addMachineBtn" class="small">+ Add Machine</button>
+    </div>
     <div class="grid">
       <label>Search
         <input id="mSearch" placeholder="Machine, model, brand ya notes" autocomplete="off" />

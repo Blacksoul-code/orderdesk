@@ -291,9 +291,15 @@
 <section id="view-machines" class="view hidden">
   <div class="card full">
     <h2>Machines</h2>
-    <label>Brand filter
-      <select id="mFilter"></select>
-    </label>
+    <div class="grid">
+      <label>Search
+        <input id="mSearch" placeholder="Machine, model, brand ya notes" autocomplete="off" />
+      </label>
+      <label>Brand filter
+        <select id="mFilter"></select>
+      </label>
+    </div>
+    <button type="button" id="mClear" class="small gray">Remove Filter</button>
   </div>
   <div class="card full tablewrap">
     <table>

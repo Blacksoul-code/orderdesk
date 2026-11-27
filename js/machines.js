@@ -86,7 +86,12 @@ async function loadMachines() {
 // Filter ke hisaab se list dikhao
 function renderMachines() {
   const f = $m("mFilter").value;
-  const list = machinesCache.filter((m) => !f || m.brand_id === f);
+  const q = $m("mSearch").value.trim().toLowerCase();
+  const list = machinesCache.filter((m) =>
+    (!f || m.brand_id === f) &&
+    (!q || [m.name, m.model, m.notes, m.brands && m.brands.name]
+      .some((v) => (v || "").toLowerCase().includes(q)))
+  );
   const body = $m("machineBody");
   if (!list.length) return emptyMsg(body, "No machines available yet.");
   body.innerHTML = "";
@@ -101,6 +106,12 @@ function renderMachines() {
   });
 }
 $m("mFilter").addEventListener("change", renderMachines);
+$m("mSearch").addEventListener("input", renderMachines);
+$m("mClear").addEventListener("click", () => {
+  $m("mSearch").value = "";
+  $m("mFilter").value = "";
+  renderMachines();
+});
 
 function resetMachineForm() {
   editingMachineId = null;

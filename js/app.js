@@ -17,7 +17,7 @@ function showView(name) {
     b.classList.toggle("active", b.dataset.view === name)
   );
   // Machine tab tab highlight ho jab uske andar ka koi page khula ho
-    $("machineMenuBtn").classList.toggle("active", ["brands", "machine-add", "machines", "machine-detail"].includes(name));
+    $("machineMenuBtn").classList.toggle("active", ["brands", "machine-add", "machines", "categories", "machine-detail"].includes(name));
   $("machineDropdown").classList.remove("open");
 
     if (name === "dashboard") loadDashboard();
@@ -45,6 +45,7 @@ function showScreen(session) {
     loadMasters();
     loadDocs();
     loadMachineData();
+    loadCategories();
     loadDashboard();
   }
   if (!session) loadedFor = null;

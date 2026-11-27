@@ -109,3 +109,11 @@ const rollersApi = {
   add: (row) => sb.from("rollers").insert(row),
   update: (id, row) => sb.from("rollers").update(row).eq("id", id),
 };
+
+// ---------- ROLLER CATEGORIES (table: roller_categories) ----------
+const categoriesApi = {
+  list: () => sb.from("roller_categories").select("*").order("name"),
+  add: (row) => sb.from("roller_categories").insert(row),
+  update: (id, row) => sb.from("roller_categories").update(row).eq("id", id),
+  remove: (id) => sb.from("roller_categories").delete().eq("id", id),
+};

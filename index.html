@@ -43,6 +43,7 @@
   <div class="ddmenu">
     <button type="button" class="ddbtn" data-view="brands">Add Brand</button>
     <button type="button" class="ddbtn" data-view="machine-add">Add Machines</button>
+    <button type="button" class="ddbtn" data-view="categories">Roller Category</button>
     <button type="button" class="ddbtn" data-view="machines">Machines</button>
   </div>
 </div>
@@ -220,6 +221,26 @@
     <button type="button" id="pgPrev" class="small gray">← Prev</button>
     <span id="pgInfo"></span>
     <button type="button" id="pgNext" class="small gray">Next →</button>
+  </div>
+</section>
+
+<!-- ROLLER CATEGORY -->
+<section id="view-categories" class="view hidden">
+  <div class="card full">
+    <h2>Roller Category</h2>
+    <form id="catForm">
+      <div class="grid">
+        <label>Category Name *<input id="cName" required /></label>
+      </div>
+      <button type="submit" id="catSaveBtn">Add Category</button>
+      <button type="button" id="catCancelBtn" class="small hidden">Cancel</button>
+    </form>
+  </div>
+  <div class="card full tablewrap">
+    <table>
+      <thead><tr><th>Category</th><th></th></tr></thead>
+      <tbody id="catBody"></tbody>
+    </table>
   </div>
 </section>
 
@@ -541,6 +562,7 @@
 <script src="js/settings.js"></script>
 <script src="js/masters.js"></script>
 <script src="js/machines.js"></script>
+<script src="js/categories.js"></script>
 <script src="js/rollers.js"></script>
 <script src="js/drawings.js"></script>
 <script src="js/documents.js"></script>

@@ -9,11 +9,6 @@ async function loadDashboard() {
   document.getElementById("stPO").textContent = count("purchase_order");
   document.getElementById("stCH").textContent = count("challan");
 
-  // Pending = Orders ka balance (Cancelled chhodkar)
-  const pending = data
-    .filter((d) => d.doc_type === "order")
-    .reduce((s, d) => s + (Number(d.balance) || 0), 0);
-  document.getElementById("stPending").textContent = "₹" + money(pending);
 
   // Last 8 documents (list pehle se newest-first aati hai)
   const body = document.getElementById("recentBody");

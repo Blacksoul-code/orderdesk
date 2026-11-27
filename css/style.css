@@ -455,3 +455,9 @@ select::-ms-expand { display: none; }
   #view-machine-add:not(.hidden) { padding: 0; }
   #view-machine-add:not(.hidden) > .card { max-width: 100%; min-height: 100vh; border-radius: 0; }
 }
+
+#machineForm { display: flex; flex-wrap: wrap; gap: 10px; }
+#machineForm .grid { width: 100%; }
+#machineForm > p { width: 100%; margin: 0; }
+#machineForm button { width: auto; min-width: 120px; }
+#machineCancelBtn { background: linear-gradient(135deg, #dc2626, #ef4444) !important; color: #fff !important; }

@@ -76,9 +76,16 @@ function closeRollerForm() {
 function editRoller(r) {
   editingRollerId = r.id;
   openRollerForm();
-  $r("rCategory").value = r.category || "";
+  const cs = $r("rCategory");
+  if (r.category && ![...cs.options].some((o) => o.value === r.category)) cs.add(new Option(r.category, r.category));
+  cs.value = r.category || "";
   $r("rType").value = r.roller_type || "";
   $r("rQty").value = r.qty ?? 1;
+    const cc = $r("rColor");
+  if (r.color && ![...cc.options].some((o) => o.value.toLowerCase() === r.color.toLowerCase()))
+    cc.add(new Option(r.color, r.color));
+  const match = [...cc.options].find((o) => o.value.toLowerCase() === (r.color || "").toLowerCase());
+  if (match) r.color = match.value;
   $r("rColor").value = r.color || "";
   $r("rHardness").value = r.hardness || "";
   $r("rShell").value = r.shell_dia ?? "";

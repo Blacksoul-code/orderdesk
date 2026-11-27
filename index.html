@@ -330,43 +330,45 @@
   </div>
 
 
-  <form id="rollerForm" class="card full rform hidden">
+<form id="rollerForm" class="card full rform hidden">
   <h2 id="rollerFormTitle">Add Roller</h2>
-  <datalist id="rollerCatList">
-    <option value="Inkers"></option><option value="Dampening"></option>
-    <option value="Transfer"></option><option value="Distributor"></option>
-  </datalist>
-  <datalist id="rollerColorList">
-    <option value="Black"></option><option value="White"></option><option value="Red"></option>
-    <option value="Blue"></option><option value="Green"></option><option value="Yellow"></option>
-    <option value="Grey"></option><option value="Orange"></option>
-  </datalist>
 
   <label>Offset Machine Name<input id="rMachine" readonly /></label>
-  <label>Roller Category *<input id="rCategory" list="rollerCatList" placeholder="Search/Select" autocomplete="off" required /></label>
+
+  <label>Roller Category *
+    <select id="rCategory" required></select>
+  </label>
+
   <div class="grid2">
     <label>Type of Roller *<input id="rType" placeholder="Type of Roller" required /></label>
     <label>Quantity of Rollers in Machine *<input id="rQty" type="number" min="1" step="1" placeholder="Quantity of Rollers in Machine" required /></label>
   </div>
 
   <div class="grid2">
-    <label>Roller Color<input id="rColor" list="rollerColorList" placeholder="Search/Select" autocomplete="off" /></label>
-    <label>Hardness<input id="rHardness" placeholder="Hardness" /></label>
+    <label>Roller Color *
+      <select id="rColor" required>
+        <option value="">-- Select --</option>
+        <option>Black</option><option>White</option><option>Red</option><option>Blue</option>
+        <option>Green</option><option>Yellow</option><option>Grey</option><option>Orange</option>
+      </select>
+    </label>
+    <label>Hardness *<input id="rHardness" placeholder="Hardness" required /></label>
   </div>
+
   <div class="grid2">
-    <label>Shell Diameter (in mm) [optional]<input id="rShell" type="number" min="0" step="any" placeholder="Shell Diameter in mm" /></label>
-    <label>Finish Diameter (in mm)<input id="rFinish" type="number" min="0" step="any" placeholder="Finish Diameter in mm" /></label>
+    <label>Shell Diameter (in mm) *<input id="rShell" type="number" min="0" step="any" placeholder="Shell Diameter in mm" required /></label>
+    <label>Finish Diameter (in mm) *<input id="rFinish" type="number" min="0" step="any" placeholder="Finish Diameter in mm" required /></label>
   </div>
+
   <div class="grid2">
-    <label>Face Length (in mm)<input id="rFace" type="number" min="0" step="any" placeholder="Face Length in mm" /></label>
-    <label>Spindle Length (in mm)<input id="rSpindle" type="number" min="0" step="any" placeholder="Spindle Length in mm" /></label>
+    <label>Face Length (in mm) *<input id="rFace" type="number" min="0" step="any" placeholder="Face Length in mm" required /></label>
+    <label>Spindle Length (in mm) *<input id="rSpindle" type="number" min="0" step="any" placeholder="Spindle Length in mm" required /></label>
   </div>
 
   <div class="activebox">
     <label class="switch"><input type="checkbox" id="rActive" checked /><span class="slider"></span></label>
     <span>Is Active</span>
   </div>
-
 
   <div class="formbtns">
     <button type="submit" id="rollerSaveBtn" class="btn-save">💾 Save</button>

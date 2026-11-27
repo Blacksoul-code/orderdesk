@@ -397,3 +397,40 @@ button.gray#docCancelBtn:hover,
 .itembtns button { width: auto; }
 .rollertotal { text-align: right; font-size: 16px; font-weight: 600; margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--line, #e6eaf2); }
 .rollertotal b { font-size: 20px; color: var(--primary, #4f46e5); }
+
+/* ===== Premium dropdown (select) ===== */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 11px 42px 11px 14px;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 14px;
+  border: 1px solid #d5dbe7;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #0f172a;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  transition: border-color .15s, box-shadow .15s;
+}
+select:hover { border-color: #b8c1d4; }
+select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99,102,241,.16);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%234f46e5' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+}
+select:invalid { color: #9aa5b8; }          /* "-- Select --" placeholder jaisa dikhe */
+select option { color: #0f172a; background: #fff; padding: 10px; font-size: 15px; }
+select option:checked { background: #eef0ff; color: #4f46e5; }
+select option[value=""] { color: #9aa5b8; }
+select:disabled { background-color: #f6f8fc; cursor: not-allowed; opacity: .7; }
+
+/* Old IE arrow hatao */
+select::-ms-expand { display: none; }

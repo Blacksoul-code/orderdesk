@@ -4,16 +4,14 @@ let editingCatId = null;
 let editingCatOld = "";
 const DEFAULT_CATS = ["Inkers", "Dampening", "Transfer", "Distributor"];
 
-// Roller form ki suggestion list bharo
+// Roller form ka Category dropdown bharo (sirf asli categories)
 function fillCategoryList(list) {
-  const dl = $c("rollerCatList");
-  if (!dl) return;
-  dl.innerHTML = "";
-  list.forEach((c) => {
-    const o = document.createElement("option");
-    o.value = c.name;
-    dl.appendChild(o);
-  });
+  const sel = $c("rCategory");
+  if (!sel) return;
+  const keep = sel.value;
+  sel.innerHTML = '<option value="">-- Select Category --</option>';
+  list.forEach((c) => sel.add(new Option(c.name, c.name)));
+  sel.value = keep;
 }
 
 async function loadCategories() {

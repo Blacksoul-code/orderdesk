@@ -41,7 +41,7 @@
         <div class="dropdown" id="machineDropdown">
   <button type="button" class="ddtoggle" id="machineMenuBtn">Machine ▾</button>
   <div class="ddmenu">
-    <button type="button" class="ddbtn" data-view="brands">Add Brand</button>
+<button type="button" class="ddbtn" data-view="brands">Brands</button>
     <button type="button" class="ddbtn" data-view="categories">Roller Category</button>
     <button type="button" class="ddbtn" data-view="machines">Machines</button>
   </div>
@@ -247,18 +247,13 @@
 </section>
 
 <!-- BRANDS -->
+<!-- BRANDS -->
 <section id="view-brands" class="view hidden">
   <div class="card full">
-    <h2>Add Brand</h2>
-    <form id="brandForm">
-      <div class="grid">
-        <label>Brand Name *<input id="bName" required /></label>
-      </div>
-      <button type="submit" id="brandSaveBtn">Add Brand</button>
-      <button type="button" id="brandCancelBtn" class="small hidden">Cancel</button>
-    </form>
-  </div>
-    <div class="card full">
+    <div class="headrow">
+      <h2>Brands</h2>
+      <button type="button" id="addBrandBtn" class="small">+ Add Brand</button>
+    </div>
     <label>Search
       <input id="bSearch" placeholder="Brand ka naam" autocomplete="off" />
     </label>
@@ -268,6 +263,20 @@
       <thead><tr><th>Brand</th><th></th></tr></thead>
       <tbody id="brandBody"></tbody>
     </table>
+  </div>
+</section>
+
+<!-- ADD BRAND (popup) -->
+<section id="view-brand-add" class="view hidden">
+  <div class="card full">
+    <h2 id="brandFormTitle">Add Brand</h2>
+    <form id="brandForm">
+      <label>Brand Name *<input id="bName" required /></label>
+      <div class="formbtns">
+        <button type="submit" id="brandSaveBtn">Add Brand</button>
+        <button type="button" id="brandCancelBtn" class="btn-close">Cancel</button>
+      </div>
+    </form>
   </div>
 </section>
 

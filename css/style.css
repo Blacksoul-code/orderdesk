@@ -461,3 +461,18 @@ select::-ms-expand { display: none; }
 #machineForm > p { width: 100%; margin: 0; }
 #machineForm button { width: auto; min-width: 120px; }
 #machineCancelBtn { background: linear-gradient(135deg, #dc2626, #ef4444) !important; color: #fff !important; }
+
+#view-brand-add:not(.hidden) {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 24px 12px; overflow-y: auto;
+  background: rgba(15,23,42,.55); backdrop-filter: blur(4px);
+}
+#view-brand-add:not(.hidden) > .card {
+  max-width: 520px; margin: 0; border-radius: 18px; padding: 26px;
+  box-shadow: 0 24px 60px -12px rgba(15,23,42,.35);
+}
+@media (max-width: 600px) {
+  #view-brand-add:not(.hidden) { padding: 0; }
+  #view-brand-add:not(.hidden) > .card { max-width: 100%; min-height: 100vh; border-radius: 0; }
+}

@@ -48,15 +48,15 @@ function resetBrandForm() {
   editingBrandId = null;
   $m("brandForm").reset();
   $m("brandSaveBtn").textContent = "Add Brand";
-  $m("brandCancelBtn").classList.add("hidden");
+    $m("brandFormTitle").textContent = "Add Brand";
 }
 
 function editBrand(b) {
   editingBrandId = b.id;
+  showView("brand-add");
   $m("bName").value = b.name;
+  $m("brandFormTitle").textContent = "Edit Brand";
   $m("brandSaveBtn").textContent = "Update Brand";
-  $m("brandCancelBtn").classList.remove("hidden");
-  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 async function deleteBrand(b) {
@@ -83,8 +83,15 @@ $m("brandForm").addEventListener("submit", async (e) => {
   resetBrandForm();
   await loadBrands();
   loadMachines();
+  showView("brands");
 });
-$m("brandCancelBtn").addEventListener("click", resetBrandForm);
+$m("brandCancelBtn").addEventListener("click", () => { resetBrandForm(); showView("brands"); });
+
+// Brands page ka "+ Add Brand" button
+$m("addBrandBtn").addEventListener("click", () => {
+  resetBrandForm();
+  showView("brand-add");
+});
 
 // ================= MACHINES =================
 async function loadMachines() {

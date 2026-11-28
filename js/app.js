@@ -12,16 +12,16 @@ function toast(msg, isError = false) {
 // Page (Dashboard / Settings) badlo
 function showView(name) {
   const popup = name === "machine-add";
+   const popupOf = { "machine-add": "view-machines", "brand-add": "view-brands" };
   document.querySelectorAll(".view").forEach((v) => {
-    // Popup ke time Machines list peeche khuli rahe
-    const keep = popup && v.id === "view-machines";
+    const keep = popupOf[name] === v.id;
     v.classList.toggle("hidden", !keep);
   });
   $("view-" + name).classList.remove("hidden");
   document.querySelectorAll(".navbtn").forEach((b) =>
     b.classList.toggle("active", b.dataset.view === name)
   );
-  $("machineMenuBtn").classList.toggle("active", ["brands", "machine-add", "machines", "machine-detail", "categories"].includes(name));
+  $("machineMenuBtn").classList.toggle("active", ["brands", "brand-add", "machine-add", "machines", "machine-detail", "categories"].includes(name));
   $("machineDropdown").classList.remove("open");
   if (name === "dashboard") loadDashboard();
 }

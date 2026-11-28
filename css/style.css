@@ -508,3 +508,7 @@ select::-ms-expand { display: none; }
   border-top: 1px solid #e6eaf2;
   z-index: 2;
 }
+
+#rollerForm:not(.hidden) .activebox { margin-bottom: 20px; }
+#rollerForm:not(.hidden) .formbtns { position: static; border-top: 0; padding: 0 0 16px; }
+#rollerForm:not(.hidden) { max-height: calc(100vh - 24px); top: 12px; }

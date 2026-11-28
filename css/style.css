@@ -512,3 +512,17 @@ select::-ms-expand { display: none; }
 #rollerForm:not(.hidden) .activebox { margin-bottom: 20px; }
 #rollerForm:not(.hidden) .formbtns { position: static; border-top: 0; padding: 0 0 16px; }
 #rollerForm:not(.hidden) { max-height: calc(100vh - 24px); top: 12px; }
+
+/* Roller popup: buttons poore dikhen */
+#rollerForm:not(.hidden) {
+  top: 8px;
+  max-height: calc(100vh - 16px);
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+#rollerForm:not(.hidden) .formbtns {
+  position: static;
+  margin-top: 6px;
+  padding: 0 0 8px;
+  border-top: 0;
+}

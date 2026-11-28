@@ -2,6 +2,7 @@
 const $c = (id) => document.getElementById(id);
 let editingCatId = null;
 let editingCatOld = "";
+let catsCache = [];
 const DEFAULT_CATS = ["Inkers", "Dampening", "Transfer", "Distributor"];
 
 // Roller form ka Category dropdown bharo (sirf asli categories)
@@ -24,28 +25,36 @@ async function loadCategories() {
     ({ data } = await categoriesApi.list());
   }
 
+    catsCache = data;
   fillCategoryList(data);
-  const body = $c("catBody");
-  if (!data.length) return emptyMsg(body, "Abhi koi category nahi hai.");
-  body.innerHTML = "";
-  data.forEach((c) => addRow(body, [c.name], () => editCategory(c), () => deleteCategory(c)));
+  renderCategories();
 }
+
+function renderCategories() {
+  const q = $c("cSearch").value.trim().toLowerCase();
+  const list = catsCache.filter((c) => !q || (c.name || "").toLowerCase().includes(q));
+  const body = $c("catBody");
+  if (!list.length) return emptyMsg(body, catsCache.length ? "Koi category match nahi hui." : "Abhi koi category nahi hai.");
+  body.innerHTML = "";
+  list.forEach((c) => addRow(body, [c.name], () => editCategory(c), () => deleteCategory(c)));
+}
+$c("cSearch").addEventListener("input", renderCategories);
 
 function resetCatForm() {
   editingCatId = null;
   editingCatOld = "";
   $c("catForm").reset();
   $c("catSaveBtn").textContent = "Add Category";
-  $c("catCancelBtn").classList.add("hidden");
+    $c("catFormTitle").textContent = "Add Category";
 }
 
 function editCategory(c) {
   editingCatId = c.id;
   editingCatOld = c.name;
+  showView("category-add");
   $c("cName").value = c.name;
+  $c("catFormTitle").textContent = "Edit Category";
   $c("catSaveBtn").textContent = "Update Category";
-  $c("catCancelBtn").classList.remove("hidden");
-  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 async function deleteCategory(c) {
@@ -66,14 +75,21 @@ $c("catForm").addEventListener("submit", async (e) => {
     ? await categoriesApi.update(editingCatId, { name })
     : await categoriesApi.add({ name });
   btn.disabled = false;
-  if (error) return toast(error.code === "23505" ? "Ye category pehle se hai" : "Save error: " + error.message, true);
+  if (error) return toast(error.code === "23505" ? "This category already exists" : "Save error: " + error.message, true);
 
   // Naam badla ho to purane rollers me bhi badlo
   if (editingCatId && editingCatOld && editingCatOld !== name) {
     await sb.from("rollers").update({ category: name }).eq("category", editingCatOld);
   }
-  toast(editingCatId ? "Category update ho gayi ✅" : "Category add ho gayi ✅");
+  toast(editingCatId ? "Category updated successfully" : "Category added successfully");
   resetCatForm();
-  loadCategories();
+  await loadCategories();
+  showView("categories");
 });
-$c("catCancelBtn").addEventListener("click", resetCatForm);
+$c("catCancelBtn").addEventListener("click", () => { resetCatForm(); showView("categories"); });
+
+// "+ Add Category" button
+$c("addCatBtn").addEventListener("click", () => {
+  resetCatForm();
+  showView("category-add");
+});

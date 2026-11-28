@@ -12,7 +12,7 @@ function toast(msg, isError = false) {
 // Page (Dashboard / Settings) badlo
 function showView(name) {
   const popup = name === "machine-add";
-   const popupOf = { "machine-add": "view-machines", "brand-add": "view-brands" };
+const popupOf = { "machine-add": "view-machines", "brand-add": "view-brands", "category-add": "view-categories" };
   document.querySelectorAll(".view").forEach((v) => {
     const keep = popupOf[name] === v.id;
     v.classList.toggle("hidden", !keep);
@@ -21,7 +21,7 @@ function showView(name) {
   document.querySelectorAll(".navbtn").forEach((b) =>
     b.classList.toggle("active", b.dataset.view === name)
   );
-  $("machineMenuBtn").classList.toggle("active", ["brands", "brand-add", "machine-add", "machines", "machine-detail", "categories"].includes(name));
+  $("machineMenuBtn").classList.toggle("active", ["brands", "brand-add", "machine-add", "machines", "machine-detail", "categories", "category-add"].includes(name));
   $("machineDropdown").classList.remove("open");
   if (name === "dashboard") loadDashboard();
 }

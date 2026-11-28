@@ -227,22 +227,36 @@
 </section>
 
 <!-- ROLLER CATEGORY -->
+<!-- ROLLER CATEGORY -->
 <section id="view-categories" class="view hidden">
   <div class="card full">
-    <h2>Roller Category</h2>
-    <form id="catForm">
-      <div class="grid">
-        <label>Category Name *<input id="cName" required /></label>
-      </div>
-      <button type="submit" id="catSaveBtn">Add Category</button>
-      <button type="button" id="catCancelBtn" class="small hidden">Cancel</button>
-    </form>
+    <div class="headrow">
+      <h2>Roller Category</h2>
+      <button type="button" id="addCatBtn" class="small">+ Add Category</button>
+    </div>
+    <label>Search
+      <input id="cSearch" placeholder="Category ka naam" autocomplete="off" />
+    </label>
   </div>
   <div class="card full tablewrap">
     <table>
       <thead><tr><th>Category</th><th></th></tr></thead>
       <tbody id="catBody"></tbody>
     </table>
+  </div>
+</section>
+
+<!-- ADD CATEGORY (popup) -->
+<section id="view-category-add" class="view hidden">
+  <div class="card full">
+    <h2 id="catFormTitle">Add Category</h2>
+    <form id="catForm">
+      <label>Category Name *<input id="cName" required /></label>
+      <div class="formbtns">
+        <button type="submit" id="catSaveBtn">Add Category</button>
+        <button type="button" id="catCancelBtn" class="btn-close">Cancel</button>
+      </div>
+    </form>
   </div>
 </section>
 

@@ -71,6 +71,7 @@ function closeRollerForm() {
   $r("rollerBar").classList.remove("hidden");
   $r("rollerTableCard").classList.remove("hidden");
   $r("rollerFormTitle").textContent = "Add Roller";
+  $r("rollerSaveBtn").textContent = "💾 Save";
 }
 
 function editRoller(r) {
